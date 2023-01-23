@@ -7,28 +7,29 @@
     </template>
     <template #start>
       <div v-for="option in config.header.buttons" :key="option.label">
-        <b-navbar-item href="#">
+        <b-navbar-item v-on:click="action(option.label)">
           <b-icon :icon="option.icon"> </b-icon>{{ option.label }}
         </b-navbar-item>
       </div>
     </template>
 
-    <template #end>
-      <b-navbar-item tag="div">
-        <div class="buttons">
-          <a class="button is-primary">
-            <strong>Sign up</strong>
-          </a>
-          <a class="button is-light"> Log in </a>
-        </div>
-      </b-navbar-item>
-    </template>
+    <template #end> </template>
   </b-navbar>
 </template>
+
 <script>
 export default {
   data() {
-    return {}
+    return {
+      printFormat: 'PDF',
+      printOptions: {
+        "pageSize": "A4",
+        "resolution": "DPI150",
+        "orientation": "LANDSCAPE",
+        "title": "Metabuilding",
+        "footer": "Onesait Platform"
+      }
+    }
   },
   props: {
     config: {
@@ -43,9 +44,19 @@ export default {
   mounted() {
     this.logo = this.config.header.logo
   },
-  watch: {
-    config: function (val) {
-      console.log('cambia', val)
+  methods: {
+    action(name) {
+      switch (name) {
+        case 'Print':
+          this.printMap()
+          break
+
+        default:
+          break
+      }
+    },
+    printMap() {
+      this.viewer.exportMap(this.printFormat,this.printOptions)
     }
   }
 }

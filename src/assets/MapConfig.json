@@ -1,0 +1,232 @@
+{
+  "mapConfig": {
+    "mainMapOptions": {
+      "mainDivMapId": "geoclusterMap",
+      "maxNumberMaps": 1,
+      "displayGrid": false
+    },
+    "exportConfigOptions": {
+      "pdfExportOptions": {
+        "logoUrl": "https://www.idonial.com/images/2020/PROYECTOS/8486_metabuilding_logo.png",
+        "logoWidth": 60,
+        "logoXPosition": 230
+      }
+    },
+    "toolsOptions": {
+      "_historyExtentOptions": {
+        "maxOperations": -1,
+        "duration": 200
+      },
+      "mesaureToolOptions": {
+        "inline": true,
+        "radius": 5,
+        "style": {
+          "labelVisibility": true,
+          "circleVertex": false,
+          "fill": {
+            "color": "rgba(231, 84, 128, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(231, 84, 128, 1)",
+            "lineDash": [10, 10],
+            "width": 2
+          },
+          "text": {
+            "resolution": 255
+          }
+        }
+      },
+      "infoToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121,197,180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(120,116,180, 1)",
+            "width": 3
+          }
+        }
+      },
+      "showCoordToolOptions": {
+        "inline": true
+      },
+      "selectByGeomToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(255, 234,128, 0.5)"
+          },
+          "stroke": {
+            "color": "rgba(255, 234, 128, 1)",
+            "width": 3
+          }
+        }
+      },
+      "selectByAttrToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(247, 172,111, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(0, 255, 255, 1)",
+            "width": 3
+          }
+        }
+      },
+      "bufferToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(232, 138, 162, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(121, 197, 180, 1)",
+            "width": 3
+          }
+        }
+      },
+      "intersectToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121, 197, 180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(99, 159, 203, 1)",
+            "width": 3
+          }
+        }
+      },
+      "geocoderToolOptions": {
+        "inline": true,
+        "provider": "nominatim",
+        "options": {
+          "bboxLimit": [],
+          "countryCodes": ["es", "pt"],
+          "language": ["en"],
+          "searchLimit": 5,
+          "structured": false,
+          "zoom": 16
+        },
+        "style": {
+          "circleVertex": false,
+          "fill": {
+            "color": "rgba(106, 90, 205, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(255, 0, 0, 1)",
+            "width": 3
+          },
+          "labelVisibility": true,
+          "_image": {
+            "_position": 4,
+            "_src": "https://openlayers.org/en/latest/examples/data/icon.png"
+          }
+        }
+      },
+      "routingToolOptions": {
+        "inline": true,
+        "provider": "OpenRoute Service",
+        "language": "en",
+        "token": "5b3ce3597851110001cf624897810305b25e4da8970f812ab87f80f8",
+        "stopStyle": {
+          "circleVertex": false,
+          "radius": 15,
+          "fill": {
+            "color": "rgba(39, 245, 75, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(26, 149, 46, 0.9)",
+            "width": 2
+          },
+          "text": {
+            "defaultText": "",
+            "backgroundFill": "rgba(39, 245, 75, 0.9)"
+          }
+        },
+        "blockStyle": {
+          "circleVertex": false,
+          "radius": 10,
+          "fill": {
+            "color": "rgba(255, 41, 41, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(255, 0, 0, 1)",
+            "width": 3
+          }
+        },
+        "routeStyle": {
+          "stroke": {
+            "color": "rgba(106, 90, 205, 0.9)",
+            "width": 4
+          }
+        },
+        "style": {
+          "circleVertex": false,
+          "radius": 15,
+          "fill": {
+            "color": "rgba(39, 245, 75, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(26, 149, 46, 0.9)",
+            "width": 4
+          },
+          "text": {
+            "defaultText": "",
+            "backgroundFill": "rgba(39, 245, 75, 0.9)"
+          }
+        }
+      },
+      "gotoToolOptions": {
+        "inline": true
+      }
+    },
+    "mapOptions": [
+      {
+        "providerMap": "ol",
+        "id": "ol_geocluster",
+        "name": "Geocluster Map",
+        "idDiv": "GeoclusterMap",
+        "active": true,
+        "visible": true,
+        "opacity": 1,
+        "optionView": {
+          "id": "MapView",
+          "center": [1290334.5, 5459594.5],
+          "zoom": 5,
+          "projection": "3857",
+          "maxZoom": 19,
+          "minZoom": 4
+        },
+        "mapDefaultInteractions": {
+          "_altShiftDragRotate": false,
+          "_onFocusOnly": false,
+          "_doubleClickZoom": false
+        },
+        "layer": [
+          {
+            "id": "OSM",
+            "layerName": "Open Street Maps",
+            "layerType": "OSM",
+            "opacity": 1,
+            "url": "",
+            "isBaseLayer": true,
+            "defaultVisibility": true
+          }
+        ]
+      }
+    ]
+  }
+}
