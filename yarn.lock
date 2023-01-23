@@ -4370,7 +4370,7 @@
     "strip-ansi" "^6.0.0"
     "wcwidth" "^1.0.1"
 
-"os-map-ol-library@file:../app":
+"os-map-library@file:../app":
   "resolved" "file:../app"
   "version" "1.0.0"
   dependencies:

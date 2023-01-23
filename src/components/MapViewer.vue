@@ -56,7 +56,7 @@ import MapToc from './MapToc.vue'
 import SideBar from './SideBar.vue'
 import FooterBar from './FooterBar.vue'
 
-import Viewer from 'os-map-ol-library/build/main/Viewer'
+import Viewer from 'os-map-library/build/main/Viewer'
 
 export default {
   data() {
