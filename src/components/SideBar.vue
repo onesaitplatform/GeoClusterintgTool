@@ -142,8 +142,6 @@ export default {
         .then((response) => response.json())
         .then((data) => {
 
-          console.log("DATAAA", data)
-
           if (!Array.isArray(data.featureType.metadata.entry)) return
 
           data.featureType.metadata.entry.forEach(val => {
