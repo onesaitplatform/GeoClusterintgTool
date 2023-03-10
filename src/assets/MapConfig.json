@@ -13,16 +13,15 @@
       }
     },
     "toolsOptions": {
-      "_historyExtentOptions": {
-        "maxOperations": -1,
-        "duration": 200
+      "historyExtentOptions": {
+        "maxOperations": 10,
+        "zoomDuration": 200
       },
       "mesaureToolOptions": {
         "inline": true,
-        "radius": 5,
         "style": {
           "labelVisibility": true,
-          "circleVertex": false,
+          "circleVertex": true,
           "fill": {
             "color": "rgba(231, 84, 128, 0.7)"
           },
@@ -38,6 +37,7 @@
       },
       "infoToolOptions": {
         "inline": true,
+        "tolerance": 5,
         "style": {
           "circleVertex": false,
           "radius": 6,
@@ -109,13 +109,27 @@
           }
         }
       },
+      "proximityToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121, 197, 180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(99, 159, 203, 1)",
+            "width": 3
+          }
+        }
+      },
       "geocoderToolOptions": {
         "inline": true,
         "provider": "nominatim",
         "options": {
           "bboxLimit": [],
           "countryCodes": ["es", "pt"],
-          "language": ["en"],
+          "language": ["ja"],
           "searchLimit": 5,
           "structured": false,
           "zoom": 16
@@ -129,10 +143,18 @@
             "color": "rgba(255, 0, 0, 1)",
             "width": 3
           },
-          "labelVisibility": true,
-          "_image": {
-            "_position": 4,
-            "_src": "https://openlayers.org/en/latest/examples/data/icon.png"
+          "labelVisibility": true
+        },
+        "styleSelect": {
+          "radius": 15,
+          "image": {
+            "src": "images/location_red.png",
+            "scale": 1
+          },
+          "text": {
+            "fillColor": "rgba(0, 0, 0, 1)",
+            "backgroundFill": "rgba(0, 0, 0, 0)",
+            "padding": [2, 2, 2, 2]
           }
         }
       },
@@ -191,6 +213,9 @@
       },
       "gotoToolOptions": {
         "inline": true
+      },
+      "editionOptions": {
+        "tolerance": 10
       }
     },
     "mapOptions": [
@@ -201,10 +226,10 @@
         "idDiv": "GeoclusterMap",
         "active": true,
         "visible": true,
-        "opacity": 1,
         "optionView": {
           "id": "MapView",
-          "center": [1290334.5, 5459594.5],
+          "center": [536971.1492213032, 5532974.047153767],
+          "extent": [-2554753.7708575055, 2614914.0553388787, 3628696.0693001123, 8451034.038968656],
           "zoom": 5,
           "projection": "3857",
           "maxZoom": 19,
@@ -215,15 +240,218 @@
           "_onFocusOnly": false,
           "_doubleClickZoom": false
         },
-        "layer": [
+        "services": [
           {
-            "id": "OSM",
+            "id": "layer0",
             "layerName": "Open Street Maps",
             "layerType": "OSM",
-            "opacity": 1,
             "url": "",
             "isBaseLayer": true,
             "defaultVisibility": true
+          }
+        ]
+      }
+    ],
+    "toc": [
+      {
+        "id": 0,
+        "name": "Default",
+        "isOpen": true,
+        "layers": [
+          {
+            "id": "nuts_info",
+            "name": "EU Territorial Units (NUTS3)"
+          },
+          {
+            "id": "ge2o_pilots",
+            "name": "GE2O Pilots"
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "name": "Climate",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.1.1_hdd",
+            "name": "Heating Degrees Days"
+          },
+          {
+            "id": "z.1.2_cdd",
+            "name": "Cooling Degrees Days"
+          },
+          {
+            "id": "z.1.3_hsouth_45",
+            "name": "Annual incident energy on a south oriented plane with 45° Slope"
+          },
+          {
+            "id": "z.1.4_h0",
+            "name": "Annual incident energy on a south oriented vertical surface"
+          },
+          {
+            "id": "z.1.5_t_air_a",
+            "name": "Avg. ambient temperature over year"
+          },
+          {
+            "id": "z.1.6_t_air_h_s",
+            "name": "Avg. ambient temperature over heating season"
+          },
+          {
+            "id": "z.1.7_t_air_c_s",
+            "name": "Avg. ambient temperature over cooling season"
+          },
+          {
+            "id": "z.1.8_t_air_max",
+            "name": "Maximum ambient temperature over"
+          },
+          {
+            "id": "z.1.9_t_gw_a",
+            "name": "Avg. ground / water temperature over year"
+          },
+          {
+            "id": "z.1.10_t_gw_h_s",
+            "name": "Avg. ground / water temperature over heating season"
+          },
+          {
+            "id": "z.1.11_t_gw_c_s",
+            "name": "Avg. ground / water temperature over cooling season"
+          },
+          {
+            "id": "z.1.12_t_air_wb_c_s",
+            "name": "Avg. ambient wet bulb temperature over cooling season"
+          },
+          {
+            "id": "z.1.13_t_air_c_s_daylight",
+            "name": "Avg. ambient over cooling season during daylight"
+          },
+          {
+            "id": "z.1.14_g_south_45",
+            "name": "Avg. solar irradiation during daylight over cooling season"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Building Typology",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.2.1_bc_age",
+            "name": "Age of Construction"
+          },
+          {
+            "id": "z.2.2.1_residential_building",
+            "name": "Use Residential"
+          },
+          {
+            "id": "z.2.2.1.1_residential_single",
+            "name": "Use Residential - Single"
+          },
+          {
+            "id": "z.2.2.1.2_residential_flat",
+            "name": "Use Residential - Apartment Flats"
+          },
+          {
+            "id": "z.2.3.1_uvalue_wall",
+            "name": "U Value Existing - Wall"
+          },
+          {
+            "id": "z.2.3.2_uvalue_roof",
+            "name": "U Value Existing - Roof"
+          },
+          {
+            "id": "z.2.3.3_uvalue_floor",
+            "name": "U Value Existing - Floor"
+          },
+          {
+            "id": "Z.2.4.1",
+            "name": "U Value Target - Wall"
+          },
+          {
+            "id": "z.2.4.2_uvalue_roof",
+            "name": "U Value Target - Roof"
+          },
+          {
+            "id": "Z.2.4.3",
+            "name": "U Value Target - Floor"
+          },
+          {
+            "id": "Z_2_5_1",
+            "name": "Heating System - Central"
+          },
+          {
+            "id": "Z.2.5.2",
+            "name": "Heating System - Individual"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Social Economic",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.3.1_avg_population",
+            "name": "Population living in the area at last census"
+          },
+          {
+            "id": "z.3.2_gdp_last_census",
+            "name": "Gross domestic product of the area at last census"
+          },
+          {
+            "id": "z.3.3_gdp_construction",
+            "name": "Gross domestic product in construction"
+          },
+          {
+            "id": "z.3.4_employment_rate",
+            "name": "Employment rate"
+          },
+          {
+            "id": "z.3.5_employment_construction",
+            "name": "Employment in construction"
+          },
+          {
+            "id": "Z.3.6",
+            "name": "Labour cost"
+          },
+          {
+            "id": "z.3.7_gas_price",
+            "name": "Gas prices for household consumers"
+          },
+          {
+            "id": "z.3.8_electricity_price",
+            "name": "Electricity prices for household consumers"
+          },
+          {
+            "id": "Z.3.9",
+            "name": "Disposable income of households"
+          },
+          {
+            "id": "z.3.10_electricity_consumption",
+            "name": "Electricity consumption of households"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Regulations",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "ec_country",
+            "name": "EC Countries"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Financial Incentives",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.5.1_solar_cooling_incentives",
+            "name": "Solar Cooling Incentives"
           }
         ]
       }

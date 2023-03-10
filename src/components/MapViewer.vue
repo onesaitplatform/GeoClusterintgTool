@@ -5,7 +5,7 @@
 
     <!-- MAP -->
     <div class="viewer">
-      <MapToc :config="appConfig" :viewer="viewer" @onClick="handleWmsLayer" />
+      <MapToc class="toc" :viewer="viewer" :tocInfo="mapConfig.toc" />
 
       <div class="mapContainer">
         <div class="navButtonBar">
@@ -31,14 +31,14 @@
         <div class="container-fluid" id="geoclusterMap"></div>
       </div>
 
-      <SideBar
+      <!-- <SideBar
         :config="appConfig"
         :viewer="viewer"
         :service="wmsService"
         :layerId="wmsName"
         :legend="wmsLegend"
         :title="wmsTitle"
-      />
+      /> -->
     </div>
 
     <!-- FOOTER -->
@@ -53,7 +53,7 @@ import MapConfig from '../assets/MapConfig.json'
 
 import NavBar from './NavBar.vue'
 import MapToc from './MapToc.vue'
-import SideBar from './SideBar.vue'
+// import SideBar from './SideBar.vue'
 import FooterBar from './FooterBar.vue'
 
 import Viewer from 'os-map-library/build/main/Viewer'
@@ -63,6 +63,7 @@ export default {
     return {
       loaded: false,
       appConfig: null,
+      mapConfig: null,
       viewer: null,
       serviceName: 'Geocluster',
       serviceUrl: 'https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms?',
@@ -77,7 +78,7 @@ export default {
   components: {
     NavBar,
     MapToc,
-    SideBar,
+    // SideBar,
     FooterBar
   },
   methods: {
@@ -94,6 +95,7 @@ export default {
 
       /** Load the maps in the viewer */
       this.viewer.loadMaps(this.mapConfig)
+      
     },
     async handleWmsLayer(layerName, filter) {
 
@@ -169,7 +171,7 @@ export default {
       }
     }
   },
-  mounted() {
+  async mounted() {
     /** Load the config data */
     this.loadData()
 
@@ -202,6 +204,10 @@ html {
   flex-direction: row;
   justify-content: space-between;
   height: 100%;
+}
+
+.toc {
+  margin: 0 6px 6px 6px;
 }
 
 .mapContainer {

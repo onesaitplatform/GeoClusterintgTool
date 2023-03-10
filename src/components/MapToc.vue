@@ -2,68 +2,98 @@
   <div id="toc" :class="['toc', !expanded && 'closed']">
     <!-- MAP CONTENTS -->
     <div v-if="expanded && show" class="tocContent">
-      <template v-for="collapse in config.toc.content">
-        <b-collapse
-          :key="collapse.id"
-          class="card"
-          animation="slide"
-          :open.sync="collapse.isOpen"
-          @open="handleCollapse(collapse.id)"
-        >
-          <template #trigger="props">
-            <div
-              class="card-header"
-              role="button"
-              aria-controls="contentIdForA11y3"
-              :aria-expanded="props.open"
-            >
-              <p class="card-header-title">{{ collapse.name }}</p>
-              <a class="card-header-icon">
-                <b-icon :icon="props.open ? 'menu-down' : 'menu-up'"> </b-icon>
-              </a>
-            </div>
-          </template>
+      <!-- MAP TITLE -->
+      <div class="mapName">{{ mapName }}</div>
 
-          <div class="card-content">
-            <!-- LAYER GROUPS -->
-            <template v-for="group in collapse.groups">
-              <!-- EXPANDABLE LAYER GROUP -->
-              <div :key="group.id">
-                <div v-on:click="openLayerGroup(collapse.id, group.id)">
+      <!-- TOC CONTENT -->
+      <div v-if="dataLoaded && services.length > 0" class="layersContainer">
+        <!-- LOAD GROUPS -->
+        <div v-for="group in services" :key="group.id" class="layersGroup">
+          <!-- GROUP NAME -->
+          <div class="layerGroupName">{{ group.name }}</div>
+
+          <!-- LOAD LAYERS -->
+          <div
+            v-for="layer in group.layers"
+            :key="layer.id"
+            class="layerContainer"
+          >
+            <div class="layerGroupItems">
+              <!-- LAYER -->
+              <div class="layerGroupItems">
+                <!-- LAYER VISIBILITY -->
+                <div
+                  class="layerVisibility"
+                  @click="handleVisibility(layer.id, layer.name)"
+                >
                   <b-icon
-                    :icon="
-                      group.isOpen ? 'minus-box-outline' : 'plus-box-outline'
-                    "
+                    :icon="layer.show ? 'eye-outline' : 'eye-off-outline'"
                     size="is-small"
-                  />
-                  <span>{{ group.name }}</span>
+                  >
+                  </b-icon>
                 </div>
 
-                <b-collapse :open="group.isOpen" aria-id="contentIdForA11y1">
-                  <div class="content column">
-                    <template v-for="layer in group.layers">
-                      <section :key="layer.id">
-                        <div class="row">
-                          <img :src="icons.layer" class="img" />
-                          <b-field>
-                            <b-radio
-                              v-model="selectedLayer"
-                              size="is-small"
-                              :native-value="layer.id"
-                            >
-                              {{ layer.name }}
-                            </b-radio>
-                          </b-field>
-                        </div>
-                      </section>
-                    </template>
-                  </div>
-                </b-collapse>
+                <!-- SERVICE NAME -->
+                <div class="layerName">{{ layer.name }}</div>
               </div>
-            </template>
+
+              <!-- LAYER ICONS -->
+              <div class="layerIcons">
+                <div
+                  class="layerSymbology"
+                  @click="handleSymbology(layer.id, layer.name)"
+                >
+                  <b-tooltip
+                    :delay="500"
+                    :label="
+                      layer.symbology
+                        ? texts.tooltips.hideLegend
+                        : texts.tooltips.showLegend
+                    "
+                    type="is-light"
+                    position="is-left"
+                  >
+                    <b-icon
+                      :icon="
+                        layer.symbology
+                          ? 'chevron-down-circle-outline'
+                          : 'chevron-left-circle-outline'
+                      "
+                      size="is-small"
+                    >
+                    </b-icon>
+                  </b-tooltip>
+                </div>
+
+                <!-- SERVICE OPTIONS -->
+                <div class="layerOptions">
+                  <b-dropdown
+                    aria-role="list"
+                    class="is-pulled-right"
+                    position="is-bottom-left"
+                  >
+                    <template #trigger>
+                      <b-icon icon="dots-vertical"></b-icon>
+                    </template>
+                    <b-dropdown-item
+                      aria-role="listitem"
+                      @click="filterLayer(layer.id, layer.name)"
+                      >Filter layer</b-dropdown-item
+                    >
+                    <!-- <b-dropdown-item aria-role="listitem">Action 2</b-dropdown-item>
+                <b-dropdown-item aria-role="listitem">Action 3</b-dropdown-item> -->
+                  </b-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <!-- LEGEND -->
+            <div v-if="layer.symbology" class="legend">
+              <img :src="layer.legend" />
+            </div>
           </div>
-        </b-collapse>
-      </template>
+        </div>
+      </div>
     </div>
 
     <!-- TOC LABEL WHEN COLLAPSED -->
@@ -79,66 +109,271 @@
 </template>
 
 <script>
+// import PubSub from 'os-map-library/build/main/OSModule/Utils/PubSub'
+
 export default {
   data() {
     return {
+      dataLoaded: false,
+      map: null,
+      mapName: null,
+      services: [],
+      url: 'https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms',
+      url2: 'https://development.onesaitplatform.com/geoserver/rest/workspaces/metabuilding_geocluster/datastores/Onesait+Platform+Development+PostGIS/featuretypes/',
       expanded: true,
       show: true,
       label: false,
-      selectedLayer: null,
-      icons: {
-        layer:
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAL/SURBVDhPVZPNbxtVFMV/773x58RObGJSt6VUatSQFolGZYmQECxASAgJIf4FlmzY8wewZ8uim4oNy7ABgZDKJogoLSQKIQGUxCSO3fgj4xl75nEmZcOMRnPnvXfvuefcM+abnZ6PM7AeykVLnGakM5grWyazjFkK1ZJlqniq9ZLOGCAwnuVmGVuwsLxYJ/Uhj0+KzGYhC2HIxlGRRPFz4RybivuR4lrIQb9MPC0zimZcJDNsKoQ4dWAM7TDAOiFPLdfqAc5YxrHhquKqkMexpVlxNEKnPUOWZdjJNOPoPGUiGitLjiTzHDz13LvqSNXm3tOMl9uOSsHzRx+uN6BdMzhhijU2532zaVkow/ZpKu5w5wr8fJhSLsA9JW8epwiHV9oIDP4c6Ft6iP2lduJvsFImUNV8MReppGSnxUx3ORCiVlMdzpEDKyH/O2gTle6MU+kgMZsOic2hUO608tjzV9+wuhSwtBBwMXO81Aqkj1ORZxTM+nbPtxoNBtH0MllguACiRGPVe65SYH3rgKj4E3F2Ti0o0+Q12pUGay9ojHkrYeApqK2xeAWaa63oGE+NaBh+3NkjYqz5ezIzx5PBEVvRA349e0z/wmOnM8/pxBOL6w21lmo0nWEqOkYHItZ/7/Lm3UXeuVtn7UaVW+0ZcfWY3ybfsdPfwlrNM5BYBb1zTs66S9EiGeTR7iGvrtxmnLTo8jVR+Utq84/Y77zBIIjZG21ic+WfD8VVrR+Pno3u2rxj/8yzc3JOqT5k429LJzliaiN6o5qMtsTpYI397nWsGHA2kRsl4ItKzEd1Im63F50K1XjS22DrBFl4TiIbdjtvkUwK9Hst4ski7sOPP/3MB0XZMqVeMgxVKX+uhPqxlPDVRoJxRgZapTvyLFS3SYM9kshxv9HEPPzlxEeU9NdJZaHnJspNlXpLVXS++GFT3Oe1F5D0l3n73feYL5yzu/kB79/8CNPv/uOHg6Gclaf+/7oUWKb4/Nstvu9XiH1F3x1Wiy0+ef0W91cW+Re5LU97iP6u7QAAAABJRU5ErkJggg==",
-        disabledLayer:
-          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAIISURBVDhPPZLJqjJBDIXT7SyKM46IiBtREPEpfF1XvsBdioIuFDeKE6Ki4jz2/3/h9g0UlapKTk5Oyuj1etb7/RbDMMTlcsnn8xHOPp9PXq+Xnj0ej96x3G63xrJSqZSYDodDHcuyZLlcakIgEJDpdKp+MBiU2Wwmt9tNQqGQ7HY7Beb8eDzEJOj7/SpiOBwWAAmIRqN6R1AkElEW9/tdwVm8kWc+n09FhV46ndaqnPP5vAZtt1vJ5XLaHj5gdiFYm/SUTCbF7/fLarUSr9erCZPJRJMAms/nWo374/H4V5ACpvw3qnJwOp26g0yyTZN7TBNMU6vjYyb9nk4n7TuRSCjyfr+XTCajQLaPJrSbzWbVt1swut2uRV+oaotJRYLZGWen09EzRRATEZlIsViEkal920lQ52wDDAaDv/lj6/VaNVksFnI+n8XkEYcdJuhxOBy0ncvlIv1+X2q1mtTrdSmVSjopDMEBMaFsi4PRGyxgMBwOpVwuK3WK0CZMmASFYKMtMFd65YEARGJUUGW8/ETeMFjBlk9FjImSdgvxeFyRmQrfOxaLaTJABCMyuz05cnSM1+tVKcOGnTNMCoWCjEYjHSUfazweKyPY2syNn58fi6os/Zq/WuAD0m63VRcM8Gq1qhrBrNFoiLHZbCzokKgf4/eHYba4rVZLFacFDI2azaZUKhX5B7wQgs/Z0tkNAAAAAElFTkSuQmCC",
-      },
-    };
+      showTest: false,
+      showFilter: false,
+      formProps: ['uno', 'dos'],
+      texts: {
+        tooltips: {
+          showLegend: 'Show legend',
+          hideLegend: 'Hide legend'
+        }
+      }
+    }
   },
   props: {
-    config: {
-      type: Object,
-      required: true,
-    },
     viewer: {
       type: Object,
       required: true,
     },
+    tocInfo: {
+      type: Array,
+      required: true
+    }
   },
   watch: {
     expanded: function (value) {
       if (value) {
-        this.name = false;
+        this.name = false
         setTimeout(() => {
-          this.show = true;
-        }, 450);
+          this.show = true
+        }, 450)
       } else {
-        this.show = false;
+        this.show = false
         setTimeout(() => {
-          this.name = true;
+          this.name = true
           this.viewer.updateMapsSize()
-        }, 450);
+        }, 450)
       }
-    },
-    selectedLayer: function (layerId) {
-      this.$emit('onClick', layerId)
-    },
+    }
   },
   methods: {
-    handleCollapse(id) {
-      /** Close all collapsables except the current opened one */
-      this.config.toc.content
-        .filter((x) => x.id !== id)
-        .forEach((elem) => {
-          elem.isOpen = false;
-        });
+    async handleVisibility(id, name, filter) {
+      /** Find the service */
+      let service = null
+
+      this.services.forEach(serv => {
+        const find = serv.layers.find(x => x.id === id)
+        if (find) service = find
+      })
+
+      if (!service.service) {
+        const wmsService = await this.loadWmsService(id, name, filter)
+        service.service = wmsService[0]
+        service.legend = wmsService[1]
+        service.show = true
+      } else {
+        service.service.setVisible(!service.service.isVisible())
+        service.show = !service.show
+      }
+
     },
-    openLayerGroup(collapseId, layerId) {
-      const group = this.config.toc.content
-        .find((x) => x.id === collapseId)
-        .groups.find((y) => y.id === layerId);
-      group.isOpen = !group.isOpen;
+    async handleSymbology(id, name) {
+      let service = null
+
+      this.services.forEach(serv => {
+        const find = serv.layers.find(x => x.id === id)
+        if (find) service = find
+      })
+
+      if (!service.service) {
+        const wmsService = await this.loadWmsService(id, name)
+        service.service = wmsService[0]
+        service.legend = wmsService[1]
+        service.service.setVisible(false)
+      }
+
+      service.symbology = !service.symbology
     },
+    async loadWmsService(id, name, filter) {
+      const wmsMap = new Map()
+      wmsMap.set(id, null)
+
+      const layerConfig = {
+        type: "WMS",
+        url: this.url,
+        sublayers: wmsMap,
+        customName: name,
+      }
+
+      const service = await this.viewer.addService(layerConfig)
+
+      /** Store the filter */
+      if (filter) {
+        this.wmsFilter = filter
+      }
+
+      /** Get the legend */
+      const fetchUrl = await fetch(this.url + '?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=' + id)
+      const wmsLegend = fetchUrl.url
+
+      return [service, wmsLegend]
+    },
+    async filterLayer(id) {
+
+      const availableFilters = []
+
+      await fetch(this.url2 + id + '.json')
+        .then((response) => response.json())
+        .then((data) => {
+
+          if (!Array.isArray(data.featureType.metadata.entry)) return
+
+          data.featureType.metadata.entry.forEach(val => {
+            if (val['@key'] && val['@key'] === 'JDBC_VIRTUAL_TABLE') {
+              const virtualTable = val.virtualTable
+
+              if (!virtualTable.parameter) return
+
+              virtualTable.parameter.forEach(param => {
+                param.currentValue = param.defaultValue
+                availableFilters.push(param)
+              })
+            }
+
+          })
+        })
+
+      this.showFilter = true
+
+      const newFilters = []
+
+      availableFilters.forEach(filter => {
+        const userFilter = prompt("Add a filter for'" + filter.name + "'", filter.currentValue)
+        const newFilter = {
+          name: filter.name,
+          value: userFilter
+        }
+        newFilters.push(newFilter)
+      })
+
+      if (newFilters.length === 0) return
+
+      this.sendFilter(id, newFilters)
+
+      // this.openModal(availableFilters)
+
+    },
+    sendFilter(id, filter) {
+      /** Find the service */
+      let service = null
+
+      this.services.forEach(serv => {
+        const find = serv.layers.find(x => x.id === id)
+        if (find) service = find
+      })
+
+      if (!service) return
+
+      let viewparamFilter = ''
+
+      filter.forEach(param => {
+        viewparamFilter += param.name + ':' + param.value + ';'
+      })
+
+      service.service.addFilter('viewparams', viewparamFilter)
+
+    },
+    openModal() {
+
+      // this.showFilter = true
+
+      // const filterValues = {
+
+      // }
+
+      // let htmlCode = ''
+
+      // availableFilters.forEach(filter => {
+      //   const filterName = filter.name
+      //   filterValues[filterName] = {}
+      //   filterValues[filterName].defaultValue = filter.defaultValue
+      //   filterValues[filterName].currentValue = filter.currentValue
+
+      //   const newBField = document.createElement("b-field")
+      //   const newBInput = document.createElement("b-input")
+      //   newBField.appendChild(newBInput)
+
+      //   htmlCode = htmlCode + new XMLSerializer().serializeToString(newBField)
+
+      // })
+
+
+
+      // const htmlCode = newBField.toString()
+
+      // `<div><b-field label="Name1"><b-input v-model="name1"></b-input></b-field></div><div><b-field label="Name2"><b-input v-model="name2"></b-input></b-field></div>`
+
+      // this.$buefy.dialog.prompt({
+      //   title: 'Add filter to the layer',
+      //   message: htmlCode,
+      //   // inputAttrs: {
+      //   //   placeholder: 'e.g. Walter 1',
+      //   //   maxlength: 10
+      //   // },
+      //   trapFocus: true,
+      //   onConfirm: (value) => this.$buefy.toast.open(`Your name is: ${value}`)
+      // })
+
+      this.$buefy.dialog.prompt({
+        message: `Layer filter parameters`,
+        inputAttrs: {
+          placeholder: 'e.g. Walter 1',
+          maxlength: 10
+        },
+        trapFocus: true,
+        onConfirm: (value) => this.$buefy.toast.open(`Your name is: ${value}`)
+      })
+    }
   },
+  async mounted() {
+    /** Get the map and it name */
+    this.map = await this.viewer.getListOfMaps()[0]
+    this.mapName = await this.viewer.getListOfMaps()[0].getName()
+
+
+    this.tocInfo.forEach(group => {
+
+      const obj = {
+        id: group.id,
+        name: group.name,
+        layers: []
+      }
+
+      group.layers.forEach(layer => {
+        obj.layers.push({
+          id: layer.id,
+          name: layer.name,
+          loaded: false,
+          show: false,
+          service: null,
+          symbology: false,
+          legend: null
+        })
+      })
+
+      this.services.push(obj)
+    })
+
+    this.dataLoaded = true
+
+    // /** Wait until all services are loaded */
+    // PubSub.subscribe('finishLoadServices', this.servicesLoaded.bind(this))
+
+  }
 };
 </script>
 
@@ -151,7 +386,7 @@ export default {
   min-width: 350px;
   max-width: 350px;
   width: auto;
-  height: 100%;
+  /* height: 100%; */
   background-color: white;
   transition: width 0.4s, min-width 0.4s;
   /* overflow-y: scroll; */
@@ -175,6 +410,75 @@ export default {
 .tocContent {
   display: flex;
   flex-direction: column;
+  max-height: 90vh;
+}
+
+.mapName {
+  color: #001927;
+  font-weight: lighter;
+  font-size: large;
+  padding: 6px 0 6px 12px;
+  background-color: #f0f1f2;
+  margin-bottom: 6px;
+}
+
+.layerGroup {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 24px 12px;
+}
+
+.layerGroupName {
+  display: flex;
+  font-weight: bold;
+}
+
+.layerContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.layerGroupItems {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.layerIcons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.layersContainer {
+  color: #001927;
+  padding: 6px 0 6px 12px;
+  overflow-y: scroll;
+}
+
+.layersGroup {
+  margin-bottom: 10px;
+}
+
+.legend {
+  display: flex;
+  margin-top: 10px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+}
+
+.slot {
+  display: flex;
+  justify-content: space-between;
+}
+
+.margin-bottom {
+  margin-bottom: 12px;
+}
+
+.layerVisibility {
+  margin-right: 6px;
+  cursor: pointer;
 }
 
 .card-content {

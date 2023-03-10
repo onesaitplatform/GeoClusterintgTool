@@ -1,0 +1,863 @@
+{
+  "mapConfig": {
+    "mainMapOptions": {
+      "mainDivMapId": "geoclusterMap",
+      "maxNumberMaps": 1,
+      "displayGrid": false
+    },
+    "exportConfigOptions": {
+      "pdfExportOptions": {
+        "logoUrl": "https://www.idonial.com/images/2020/PROYECTOS/8486_metabuilding_logo.png",
+        "logoWidth": 60,
+        "logoXPosition": 230
+      }
+    },
+    "toolsOptions": {
+      "historyExtentOptions": {
+        "maxOperations": 10,
+        "zoomDuration": 200
+      },
+      "mesaureToolOptions": {
+        "inline": true,
+        "style": {
+          "labelVisibility": true,
+          "circleVertex": true,
+          "fill": {
+            "color": "rgba(231, 84, 128, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(231, 84, 128, 1)",
+            "lineDash": [10, 10],
+            "width": 2
+          },
+          "text": {
+            "resolution": 255
+          }
+        }
+      },
+      "infoToolOptions": {
+        "inline": true,
+        "tolerance": 5,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121,197,180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(120,116,180, 1)",
+            "width": 3
+          }
+        }
+      },
+      "showCoordToolOptions": {
+        "inline": true
+      },
+      "selectByGeomToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(255, 234,128, 0.5)"
+          },
+          "stroke": {
+            "color": "rgba(255, 234, 128, 1)",
+            "width": 3
+          }
+        }
+      },
+      "selectByAttrToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(247, 172,111, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(0, 255, 255, 1)",
+            "width": 3
+          }
+        }
+      },
+      "bufferToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(232, 138, 162, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(121, 197, 180, 1)",
+            "width": 3
+          }
+        }
+      },
+      "intersectToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121, 197, 180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(99, 159, 203, 1)",
+            "width": 3
+          }
+        }
+      },
+      "proximityToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121, 197, 180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(99, 159, 203, 1)",
+            "width": 3
+          }
+        }
+      },
+      "geocoderToolOptions": {
+        "inline": true,
+        "provider": "nominatim",
+        "options": {
+          "bboxLimit": [],
+          "countryCodes": ["es", "pt"],
+          "language": ["ja"],
+          "searchLimit": 5,
+          "structured": false,
+          "zoom": 16
+        },
+        "style": {
+          "circleVertex": false,
+          "fill": {
+            "color": "rgba(106, 90, 205, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(255, 0, 0, 1)",
+            "width": 3
+          },
+          "labelVisibility": true
+        },
+        "styleSelect": {
+          "radius": 15,
+          "image": {
+            "src": "images/location_red.png",
+            "scale": 1
+          },
+          "text": {
+            "fillColor": "rgba(0, 0, 0, 1)",
+            "backgroundFill": "rgba(0, 0, 0, 0)",
+            "padding": [2, 2, 2, 2]
+          }
+        }
+      },
+      "routingToolOptions": {
+        "inline": true,
+        "provider": "OpenRoute Service",
+        "language": "en",
+        "token": "5b3ce3597851110001cf624897810305b25e4da8970f812ab87f80f8",
+        "stopStyle": {
+          "circleVertex": false,
+          "radius": 15,
+          "fill": {
+            "color": "rgba(39, 245, 75, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(26, 149, 46, 0.9)",
+            "width": 2
+          },
+          "text": {
+            "defaultText": "",
+            "backgroundFill": "rgba(39, 245, 75, 0.9)"
+          }
+        },
+        "blockStyle": {
+          "circleVertex": false,
+          "radius": 10,
+          "fill": {
+            "color": "rgba(255, 41, 41, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(255, 0, 0, 1)",
+            "width": 3
+          }
+        },
+        "routeStyle": {
+          "stroke": {
+            "color": "rgba(106, 90, 205, 0.9)",
+            "width": 4
+          }
+        },
+        "style": {
+          "circleVertex": false,
+          "radius": 15,
+          "fill": {
+            "color": "rgba(39, 245, 75, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(26, 149, 46, 0.9)",
+            "width": 4
+          },
+          "text": {
+            "defaultText": "",
+            "backgroundFill": "rgba(39, 245, 75, 0.9)"
+          }
+        }
+      },
+      "gotoToolOptions": {
+        "inline": true
+      },
+      "editionOptions": {
+        "tolerance": 10
+      }
+    },
+    "mapOptions": [
+      {
+        "providerMap": "ol",
+        "id": "ol_geocluster",
+        "name": "Geocluster Map",
+        "idDiv": "GeoclusterMap",
+        "active": true,
+        "visible": true,
+        "optionView": {
+          "id": "MapView",
+          "center": [1290334.5, 5459594.5],
+          "zoom": 5,
+          "projection": "3857",
+          "maxZoom": 19,
+          "minZoom": 4
+        },
+        "mapDefaultInteractions": {
+          "_altShiftDragRotate": false,
+          "_onFocusOnly": false,
+          "_doubleClickZoom": false
+        },
+        "services": [
+          {
+            "id": "layer0",
+            "layerName": "Open Street Maps",
+            "layerType": "OSM",
+            "url": "",
+            "isBaseLayer": true,
+            "defaultVisibility": true
+          },
+          {
+            "id": "nuts_info",
+            "layerName": "EU Territorial Units (NUTS3)",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "nuts_info",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "ge2o_pilots",
+            "layerName": "GE2O Pilots",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "ge2o_pilots",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.1_hdd",
+            "layerName": "Heating Degrees Days",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.1_hdd",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.2_cdd",
+            "layerName": "Cooling Degrees Days",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.2_cdd",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.3_hsouth_45",
+            "layerName": "Annual incident energy on a south oriented plane with 45° Slope",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.3_hsouth_45",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.4_h0",
+            "layerName": "Annual incident energy on a south oriented vertical surface",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.4_h0",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.5_t_air_a",
+            "layerName": "Avg. ambient temperature over year",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.5_t_air_a",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.6_t_air_h_s",
+            "layerName": "Avg. ambient temperature over heating season",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.6_t_air_h_s",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.7_t_air_c_s",
+            "layerName": "Avg. ambient temperature over cooling season",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.7_t_air_c_s",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.8_t_air_max",
+            "layerName": "Maximum ambient temperature over",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.8_t_air_max",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.9_t_gw_a",
+            "layerName": "Avg. ground / water temperature over year",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.9_t_gw_a",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.10_t_gw_h_s",
+            "layerName": "Avg. ground / water temperature over heating season",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.10_t_gw_h_s",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.11_t_gw_c_s",
+            "layerName": "Avg. ground / water temperature over cooling season",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.11_t_gw_c_s",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.12_t_air_wb_c_s",
+            "layerName": "Avg. ambient wet bulb temperature over cooling season",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.12_t_air_wb_c_s",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.13_t_air_c_s_daylight",
+            "layerName": "Avg. ambient over cooling season during daylight",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.13_t_air_c_s_daylight",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.1.14_g_south_45",
+            "layerName": "Avg. solar irradiation during daylight over cooling season",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.1.14_g_south_45",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.2.1_bc_age",
+            "layerName": "Age of Construction",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.2.1_bc_age",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.2.2.1_residential_building",
+            "layerName": "Use Residential",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.2.2.1_residential_building",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.2.2.1.1_residential_single",
+            "layerName": "Use Residential - Single",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.2.2.1.1_residential_single",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.2.2.1.2_residential_flat",
+            "layerName": "Use Residential - Apartment Flats",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.2.2.1.2_residential_flat",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.2.3.1_uvalue_wall",
+            "layerName": "U Value Existing - Wall",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.2.3.1_uvalue_wall",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.2.3.2_uvalue_roof",
+            "layerName": "U Value Existing - Roof",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.2.3.2_uvalue_roof",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.2.3.3_uvalue_floor",
+            "layerName": "U Value Existing - Floor",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.2.3.3_uvalue_floor",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "Z.2.4.1",
+            "layerName": "U Value Target - Wall",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "Z.2.4.1",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "Z.2.4.3",
+            "layerName": "U Value Target - Floor",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "Z.2.4.3",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "Z_2_5_1",
+            "layerName": "Heating System - Central",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "Z_2_5_1",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "Z.2.5.2",
+            "layerName": "Heating System - Individual",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "Z.2.5.2",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.1_avg_population",
+            "layerName": "Population living in the area at last census",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.1_avg_population",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.2_gdp_last_census",
+            "layerName": "Gross domestic product of the area at last census",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.2_gdp_last_census",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.3_gdp_construction",
+            "layerName": "Gross domestic product in construction",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.3_gdp_construction",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.4_employment_rate",
+            "layerName": "Employment rate",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.4_employment_rate",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.5_employment_construction",
+            "layerName": "Employment in construction",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.5_employment_construction",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "Z.3.6",
+            "layerName": "Labour cost",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "Z.3.6",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.7_gas_price",
+            "layerName": "Gas prices for household consumers",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.7_gas_price",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.8_electricity_price",
+            "layerName": "Electricity prices for household consumers",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.8_electricity_price",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "Z.3.9",
+            "layerName": "Disposable income of households",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "Z.3.9",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.3.10_electricity_consumption",
+            "layerName": "Electricity consumption of households",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.3.10_electricity_consumption",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          },
+          {
+            "id": "z.5.1_solar_cooling_incentives",
+            "layerName": "Solar Cooling Incentives",
+            "layerType": "WMS_LAYER",
+            "isBaseLayer": false,
+            "defaultVisibility": false,
+            "opacity": "1.0",
+            "source": {
+              "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms",
+              "params": {
+                "layers": "z.5.1_solar_cooling_incentives",
+                "version": "2.0.0"
+              },
+              "projection": "EPSG:25830"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
