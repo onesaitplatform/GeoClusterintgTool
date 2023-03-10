@@ -5,95 +5,196 @@
       <!-- MAP TITLE -->
       <div class="mapName">{{ mapName }}</div>
 
-      <!-- TOC CONTENT -->
-      <div v-if="dataLoaded && services.length > 0" class="layersContainer">
-        <!-- LOAD GROUPS -->
-        <div v-for="group in services" :key="group.id" class="layersGroup">
-          <!-- GROUP NAME -->
-          <div class="layerGroupName">{{ group.name }}</div>
+      <!-- TOC TABS -->
+      <b-tabs v-model="activeTab">
+        <!-- FULL TOC -->
+        <b-tab-item label="All layers">
+          <!-- TOC CONTENT -->
+          <div v-if="dataLoaded && services.length > 0">
+            <!-- LOAD GROUPS -->
+            <div v-for="group in services" :key="group.id" class="layerGroup">
+              <!-- GROUP NAME -->
+              <div class="layerGroupName">{{ group.name }}</div>
 
-          <!-- LOAD LAYERS -->
-          <div
-            v-for="layer in group.layers"
-            :key="layer.id"
-            class="layerContainer"
-          >
-            <div class="layerGroupItems">
-              <!-- LAYER -->
-              <div class="layerGroupItems">
-                <!-- LAYER VISIBILITY -->
-                <div
-                  class="layerVisibility"
-                  @click="handleVisibility(layer.id, layer.name)"
-                >
-                  <b-icon
-                    :icon="layer.show ? 'eye-outline' : 'eye-off-outline'"
-                    size="is-small"
-                  >
-                  </b-icon>
+              <!-- LAYER SLOT -->
+              <div
+                v-for="layer in group.layers"
+                :key="layer.id"
+                class="layerSlot"
+              >
+                <!-- LAYER BLOCK -->
+                <div class="layerGroupItems">
+                  <!-- LAYER VISIBILITY ICON + LAYER NAME -->
+                  <div class="layerLeftBlock">
+                    <!-- LAYER VISIBILITY ICON -->
+                    <div
+                      class="layerVisibility"
+                      @click="handleVisibility(layer.id, layer.name)"
+                    >
+                      <b-icon
+                        :icon="layer.show ? 'eye-outline' : 'eye-off-outline'"
+                        size="is-small"
+                      >
+                      </b-icon>
+                    </div>
+
+                    <!-- LAYER NAME -->
+                    <div class="layerName">{{ layer.name }}</div>
+                  </div>
+
+                  <!-- LAYER LEGEND ICON -->
+                  <div class="layerRightBlock">
+                    <div
+                      class="layerSymbology"
+                      @click="handleSymbology(layer.id, layer.name)"
+                    >
+                      <!-- TOOLTIP -->
+                      <b-tooltip
+                        :delay="500"
+                        :label="
+                          layer.symbology
+                            ? texts.tooltips.hideLegend
+                            : texts.tooltips.showLegend
+                        "
+                        type="is-light"
+                        position="is-left"
+                      >
+                        <b-icon
+                          :icon="
+                            layer.symbology
+                              ? 'chevron-down-circle-outline'
+                              : 'chevron-left-circle-outline'
+                          "
+                          size="is-small"
+                        >
+                        </b-icon>
+                      </b-tooltip>
+                    </div>
+                  </div>
                 </div>
 
-                <!-- SERVICE NAME -->
-                <div class="layerName">{{ layer.name }}</div>
-              </div>
-
-              <!-- LAYER ICONS -->
-              <div class="layerIcons">
-                <div
-                  class="layerSymbology"
-                  @click="handleSymbology(layer.id, layer.name)"
-                >
-                  <b-tooltip
-                    :delay="500"
-                    :label="
-                      layer.symbology
-                        ? texts.tooltips.hideLegend
-                        : texts.tooltips.showLegend
-                    "
-                    type="is-light"
-                    position="is-left"
-                  >
-                    <b-icon
-                      :icon="
-                        layer.symbology
-                          ? 'chevron-down-circle-outline'
-                          : 'chevron-left-circle-outline'
-                      "
-                      size="is-small"
-                    >
-                    </b-icon>
-                  </b-tooltip>
-                </div>
-
-                <!-- SERVICE OPTIONS -->
-                <div class="layerOptions">
-                  <b-dropdown
-                    aria-role="list"
-                    class="is-pulled-right"
-                    position="is-bottom-left"
-                  >
-                    <template #trigger>
-                      <b-icon icon="dots-vertical"></b-icon>
-                    </template>
-                    <b-dropdown-item
-                      aria-role="listitem"
-                      @click="filterLayer(layer.id, layer.name)"
-                      >Filter layer</b-dropdown-item
-                    >
-                    <!-- <b-dropdown-item aria-role="listitem">Action 2</b-dropdown-item>
-                <b-dropdown-item aria-role="listitem">Action 3</b-dropdown-item> -->
-                  </b-dropdown>
+                <!-- LEGEND -->
+                <div v-if="layer.symbology" class="legend">
+                  <img :src="layer.legend" />
                 </div>
               </div>
-            </div>
-
-            <!-- LEGEND -->
-            <div v-if="layer.symbology" class="legend">
-              <img :src="layer.legend" />
             </div>
           </div>
-        </div>
-      </div>
+        </b-tab-item>
+
+        <!-- FILTERED TOC -->
+        <b-tab-item
+          label="Visible layers"
+          :disabled="visibleServices.length === 0"
+        >
+          <draggable
+            class="list-group"
+            tag="ul"
+            v-model="visibleServices"
+            v-bind="dragOptions"
+            @start="drag = true"
+            @end="dragEnd()"
+          >
+            <transition-group
+              type="transition"
+              :name="!drag ? 'flip-list' : null"
+            >
+              <div
+                v-for="layer in visibleServices"
+                :key="layer.id"
+                class="layerSlot"
+              >
+                <!-- LAYER BLOCK -->
+                <div class="layerGroupItems">
+                  <!-- LAYER VISIBILITY ICON + LAYER NAME -->
+                  <div class="layerLeftBlock">
+                    <!-- DRAG ICON -->
+                    <div
+                      class="layerDrag"
+                    >
+                      <b-icon
+                        icon="menu"
+                        size="is-small"
+                      >
+                      </b-icon>
+                    </div>
+
+                    <!-- LAYER VISIBILITY ICON -->
+                    <div
+                      class="layerVisibility"
+                      @click="handleVisibility(layer.id, layer.name)"
+                    >
+                      <b-icon
+                        :icon="layer.show ? 'eye-outline' : 'eye-off-outline'"
+                        size="is-small"
+                      >
+                      </b-icon>
+                    </div>
+
+                    <!-- LAYER NAME -->
+                    <div class="layerName">{{ layer.name }}</div>
+                  </div>
+
+                  <!-- LAYER LEGEND ICON -->
+                  <div class="layerRightBlock">
+                    <div
+                      class="layerSymbology"
+                      @click="handleSymbology(layer.id, layer.name)"
+                    >
+                      <!-- LEGEND TOOLTIP -->
+                      <b-tooltip
+                        :delay="500"
+                        :label="
+                          layer.symbology
+                            ? texts.tooltips.hideLegend
+                            : texts.tooltips.showLegend
+                        "
+                        type="is-light"
+                        position="is-left"
+                      >
+                        <b-icon
+                          :icon="
+                            layer.symbology
+                              ? 'chevron-down-circle-outline'
+                              : 'chevron-left-circle-outline'
+                          "
+                          size="is-small"
+                        >
+                        </b-icon>
+                      </b-tooltip>
+                    </div>
+
+                    <!-- SERVICE OPTIONS -->
+                    <div class="layerOptions">
+                      <b-dropdown
+                        aria-role="list"
+                        class="is-pulled-right"
+                        position="is-bottom-left"
+                      >
+                        <template #trigger>
+                          <b-icon icon="dots-vertical"></b-icon>
+                        </template>
+                        <b-dropdown-item
+                          aria-role="listitem"
+                          @click="filterLayer(layer.id, layer.name)"
+                          >Filter layer</b-dropdown-item
+                        >
+                        <!-- <b-dropdown-item aria-role="listitem">Action 2</b-dropdown-item>
+                <b-dropdown-item aria-role="listitem">Action 3</b-dropdown-item> -->
+                      </b-dropdown>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- LEGEND -->
+                <div v-if="layer.symbology" class="legend">
+                  <img :src="layer.legend" />
+                </div>
+              </div>
+            </transition-group>
+          </draggable>
+        </b-tab-item>
+      </b-tabs>
     </div>
 
     <!-- TOC LABEL WHEN COLLAPSED -->
@@ -110,14 +211,18 @@
 
 <script>
 // import PubSub from 'os-map-library/build/main/OSModule/Utils/PubSub'
+import draggable from 'vuedraggable'
 
 export default {
   data() {
     return {
       dataLoaded: false,
+      activeTab: 0,
+      drag: false,
       map: null,
       mapName: null,
       services: [],
+      visibleServices: [],
       url: 'https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms',
       url2: 'https://development.onesaitplatform.com/geoserver/rest/workspaces/metabuilding_geocluster/datastores/Onesait+Platform+Development+PostGIS/featuretypes/',
       expanded: true,
@@ -128,8 +233,8 @@ export default {
       formProps: ['uno', 'dos'],
       texts: {
         tooltips: {
-          showLegend: 'Show legend',
-          hideLegend: 'Hide legend'
+          showLegend: 'Show Legend',
+          hideLegend: 'Hide Legend'
         }
       }
     }
@@ -142,6 +247,19 @@ export default {
     tocInfo: {
       type: Array,
       required: true
+    }
+  },
+  components: {
+    draggable
+  },
+  computed: {
+    dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost"
+      }
     }
   },
   watch: {
@@ -158,36 +276,81 @@ export default {
           this.viewer.updateMapsSize()
         }, 450)
       }
+    },
+    activeTab: function (tabIndex) {
+      if(tabIndex === 0) {
+        this.services.forEach(group => {
+          group.layers.forEach(layer => {
+            if (layer.service) {
+              layer.service.setZIndex(layer.zIndex)
+            }
+          })
+        })
+      } else {
+        this.visibleServices.forEach(service => {
+          service.service.setZIndex(service.visibleIndex)
+        })
+      }
     }
   },
   methods: {
-    async handleVisibility(id, name, filter) {
-      /** Find the service */
+    findService(id) {
       let service = null
 
       this.services.forEach(serv => {
         const find = serv.layers.find(x => x.id === id)
         if (find) service = find
       })
+
+      return service
+    },
+    async handleVisibility(id, name, filter) {
+      /** Find the service */
+      const service = this.findService(id)
 
       if (!service.service) {
         const wmsService = await this.loadWmsService(id, name, filter)
         service.service = wmsService[0]
         service.legend = wmsService[1]
         service.show = true
+        service.service.setZIndex(service.zIndex)
       } else {
         service.service.setVisible(!service.service.isVisible())
         service.show = !service.show
       }
 
+      this.handleVisibleLayer(service)
+
+      if (this.visibleServices.length === 0) {
+        this.activeTab = 0
+      }
+
+    },
+    handleVisibleLayer(service) {
+      const id = service.id
+      const visible = service.show
+
+      if (visible) {
+        service.visibleIndex = this.visibleServices.length + 1
+        this.visibleServices.push(service)
+        this.visibleServices = this.visibleServices.sort((a,b) => b.visibleIndex - a.visibleIndex)
+      } else {
+        this.visibleServices = this.visibleServices.filter(x => x.id !== id)
+        service.service.setZIndex(service.zIndex)
+      }
+    },
+    dragEnd() {
+      this.drag = false
+      let n = this.visibleServices.length
+      this.visibleServices.forEach(service => {
+        service.visibleIndex = n
+        service.service.setZIndex(n)
+        n -= 1
+      })
     },
     async handleSymbology(id, name) {
-      let service = null
-
-      this.services.forEach(serv => {
-        const find = serv.layers.find(x => x.id === id)
-        if (find) service = find
-      })
+      /** Find the service */
+      const service = this.findService(id)
 
       if (!service.service) {
         const wmsService = await this.loadWmsService(id, name)
@@ -264,17 +427,10 @@ export default {
 
       this.sendFilter(id, newFilters)
 
-      // this.openModal(availableFilters)
-
     },
     sendFilter(id, filter) {
       /** Find the service */
-      let service = null
-
-      this.services.forEach(serv => {
-        const find = serv.layers.find(x => x.id === id)
-        if (find) service = find
-      })
+      const service = this.findService(id)
 
       if (!service) return
 
@@ -287,63 +443,13 @@ export default {
       service.service.addFilter('viewparams', viewparamFilter)
 
     },
-    openModal() {
-
-      // this.showFilter = true
-
-      // const filterValues = {
-
-      // }
-
-      // let htmlCode = ''
-
-      // availableFilters.forEach(filter => {
-      //   const filterName = filter.name
-      //   filterValues[filterName] = {}
-      //   filterValues[filterName].defaultValue = filter.defaultValue
-      //   filterValues[filterName].currentValue = filter.currentValue
-
-      //   const newBField = document.createElement("b-field")
-      //   const newBInput = document.createElement("b-input")
-      //   newBField.appendChild(newBInput)
-
-      //   htmlCode = htmlCode + new XMLSerializer().serializeToString(newBField)
-
-      // })
-
-
-
-      // const htmlCode = newBField.toString()
-
-      // `<div><b-field label="Name1"><b-input v-model="name1"></b-input></b-field></div><div><b-field label="Name2"><b-input v-model="name2"></b-input></b-field></div>`
-
-      // this.$buefy.dialog.prompt({
-      //   title: 'Add filter to the layer',
-      //   message: htmlCode,
-      //   // inputAttrs: {
-      //   //   placeholder: 'e.g. Walter 1',
-      //   //   maxlength: 10
-      //   // },
-      //   trapFocus: true,
-      //   onConfirm: (value) => this.$buefy.toast.open(`Your name is: ${value}`)
-      // })
-
-      this.$buefy.dialog.prompt({
-        message: `Layer filter parameters`,
-        inputAttrs: {
-          placeholder: 'e.g. Walter 1',
-          maxlength: 10
-        },
-        trapFocus: true,
-        onConfirm: (value) => this.$buefy.toast.open(`Your name is: ${value}`)
-      })
-    }
   },
   async mounted() {
     /** Get the map and it name */
     this.map = await this.viewer.getListOfMaps()[0]
     this.mapName = await this.viewer.getListOfMaps()[0].getName()
 
+    let n = 1
 
     this.tocInfo.forEach(group => {
 
@@ -361,23 +467,24 @@ export default {
           show: false,
           service: null,
           symbology: false,
-          legend: null
+          legend: null,
+          zIndex: n,
+          visibleIndex: null
         })
+
+        n += 1
       })
 
       this.services.push(obj)
     })
 
     this.dataLoaded = true
-
-    // /** Wait until all services are loaded */
-    // PubSub.subscribe('finishLoadServices', this.servicesLoaded.bind(this))
-
   }
 };
 </script>
 
 <style scoped>
+/* TOC COMPONENT */
 .toc {
   display: flex;
   flex-direction: column;
@@ -410,9 +517,13 @@ export default {
 .tocContent {
   display: flex;
   flex-direction: column;
-  max-height: 90vh;
+  height: calc(100vh - 52px - 40px - 41px - 100px);
+  max-height: calc(100vh - 52px - 40px - 41px - 100px);
 }
 
+/* TOC TITLE */
+
+/* The map name in the gray block */
 .mapName {
   color: #001927;
   font-weight: lighter;
@@ -422,20 +533,29 @@ export default {
   margin-bottom: 6px;
 }
 
-.layerGroup {
-  display: flex;
-  flex-direction: column;
-  padding: 6px 0 24px 12px;
+/* TABS */
+::v-deep .tab-content {
+  overflow-y: auto !important;
+  height: calc(100vh - 52px - 40px - 41px - 100px);
 }
 
+/* LAYERS */
+
+/* Each block of layers: Default, Climate, etc. */
+.layerGroup {
+  margin-bottom: 20px;
+}
+
+/* The name of each layer block */
 .layerGroupName {
   display: flex;
   font-weight: bold;
 }
 
-.layerContainer {
+.layerSlot {
   display: flex;
   flex-direction: column;
+  margin-bottom: 6px;
 }
 
 .layerGroupItems {
@@ -444,7 +564,13 @@ export default {
   justify-content: space-between;
 }
 
-.layerIcons {
+.layerLeftBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.layerRightBlock {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -452,12 +578,8 @@ export default {
 
 .layersContainer {
   color: #001927;
-  padding: 6px 0 6px 12px;
-  overflow-y: scroll;
-}
-
-.layersGroup {
-  margin-bottom: 10px;
+  /* padding: 6px 0 6px 12px; */
+  /* overflow-y: scroll; */
 }
 
 .legend {
@@ -474,6 +596,11 @@ export default {
 
 .margin-bottom {
   margin-bottom: 12px;
+}
+
+.layerDrag {
+  margin-right: 6px;
+  cursor: grab;
 }
 
 .layerVisibility {
