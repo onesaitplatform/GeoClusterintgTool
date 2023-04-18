@@ -1,11 +1,16 @@
 <template>
-  <div v-if="loaded" class="app">
+  <div class="app">
     <!-- HEADER -->
-    <NavBar :config="appConfig" :viewer="viewer" />
+    <NavBar v-if="viewer" :config="appConfig" :viewer="viewer" />
 
     <!-- MAP -->
     <div class="viewer">
-      <MapToc class="toc" :viewer="viewer" :tocInfo="mapConfig.toc" />
+      <MapToc
+        v-if="viewer"
+        class="toc"
+        :viewer="viewer"
+        :tocInfo="mapConfig.toc"
+      />
 
       <div class="mapContainer">
         <div class="navButtonBar">
@@ -29,6 +34,15 @@
           ></b-button>
         </div>
         <div class="container-fluid" id="geoclusterMap"></div>
+      </div>
+
+      <div class="mapToolbar">
+        <b-button
+          :class="identifyActive ? 'is-danger' : ''"
+          size="is-small"
+          icon-left="delete"
+          @click="identify"
+        />
       </div>
 
       <!-- <SideBar
@@ -56,7 +70,7 @@ import MapToc from './MapToc.vue'
 // import SideBar from './SideBar.vue'
 import FooterBar from './FooterBar.vue'
 
-import Viewer from 'os-map-library/build/main/Viewer'
+import { Viewer } from 'os-map-library/build/main/Viewer'
 
 export default {
   data() {
@@ -72,7 +86,8 @@ export default {
       wmsLegend: null,
       wmsName: null,
       wmsTitle: null,
-      currentLayer: null
+      currentLayer: null,
+      identifyActive: false,
     }
   },
   components: {
@@ -89,13 +104,15 @@ export default {
       /** Get the map configuration */
       this.mapConfig = JSON.parse(JSON.stringify(MapConfig.mapConfig))
     },
-    loadMap() {
+    async loadMap() {
       /** Create the Viewer class (that will contain the map viewers) */
       this.viewer = new Viewer()
 
       /** Load the maps in the viewer */
-      this.viewer.loadMaps(this.mapConfig)
-      
+      await this.viewer.loadMaps(this.mapConfig, 'geoclusterMap')
+
+      this.loaded = true
+
     },
     async handleWmsLayer(layerName, filter) {
 
@@ -108,25 +125,6 @@ export default {
       }
 
       if (!this.wmsService) {
-
-        // const properties = {
-        //   "id": this.serviceName,
-        //   "layerName": this.serviceName,
-        //   "layerType": "WMS_LAYER",
-        //   "opacity": 1.0,
-        //   "defaultVisibility": true,
-        //   "source": {
-        //     "url": this.serviceUrl,
-        //     "params": {
-        //       "layers": 'metabuilding_geocluster:' + layerName,
-        //       "version": "1.3.0"
-        //     },
-        //     "projection": "EPSG:4326"
-        //   },
-        //   "filter": filter,
-        // }
-
-        // this.wmsService = await this.viewer.getActiveMap().addService(properties)
 
         /** Setup the Map with the layer and styles to create the WMS */
         const wmsMap = new Map()
@@ -159,29 +157,41 @@ export default {
       switch (action) {
         case 'home':
           this.viewer.goToInitExtent()
-          break;
-      
+          break
+
         case 'plus':
           this.viewer.zoomIn()
-          break;
-      
+          break
+
         case 'minus':
           this.viewer.zoomOut()
-          break;
+          break
       }
+    },
+    identify() {
+      if (this.identifyActive) {
+        this.viewer.setOnOffTool(false, 'identifyTool')
+      } else {
+        this.viewer.setOnOffTool(true, 'identifyTool')
+      }
+
+      this.identifyActive = !this.identifyActive
     }
   },
-  async mounted() {
+  beforeMount() {
     /** Load the config data */
     this.loadData()
-
+  },
+  mounted() {
     /** Create the map */
     this.loadMap()
 
     // PubSub.subscribe('updateListOfLayers', this.updateListOfLayers.bind(this));
 
     /** Allow the app to load to avoid flickering and async problems */
-    this.loaded = true
+
+    // console.log(this.viewer.getActiveMap())
+
   }
 }
 </script>
@@ -218,26 +228,41 @@ html {
   width: 100%;
 }
 
+.mapToolbar {
+  width: 48px;
+  max-width: 48px;
+  min-width: 48px;
+}
+
 .navButtonBar {
-  /* display: flex;
-  flex-direction: column;
-  position: absolute;
-  margin: 10px 0 0 10px;
-  z-index: 1;
-  background-color: purple;
-  border-radius: 5px;
-  box-shadow: 0 2px 10px #0006; */
   display: flex;
   flex-direction: column;
   width: fit-content;
   justify-content: space-between;
   align-items: center;
   position: absolute;
-  /* right: 15px; */
   z-index: 10;
   border-radius: 6px;
   box-shadow: 0px 2px 3px #00000026, 0px 5px 4px #0000004d;
   margin: 10px 0 0 10px;
+}
+
+.button .icon:first-child:last-child {
+  margin-left: calc(-0.5em - 1px);
+  margin-right: calc(-0.5em - 1px) !important;
+}
+
+/* .button {
+  width: 20px;
+  height: 33px;
+}
+
+.icon span {
+  margin-left: 10px !important;
+} */
+
+.button span {
+  margin-left: -0.5rem !important;
 }
 
 #geoclusterMap {

@@ -19,7 +19,7 @@
               <!-- LAYER SLOT -->
               <div
                 v-for="layer in group.layers"
-                :key="layer.id"
+                :key="layer.name"
                 class="layerSlot"
               >
                 <!-- LAYER BLOCK -->
@@ -29,7 +29,9 @@
                     <!-- LAYER VISIBILITY ICON -->
                     <div
                       class="layerVisibility"
-                      @click="handleVisibility(layer.id, layer.name)"
+                      @click="
+                        handleVisibility(layer.id, layer.name, layer.symbology)
+                      "
                     >
                       <b-icon
                         :icon="layer.show ? 'eye-outline' : 'eye-off-outline'"
@@ -46,7 +48,9 @@
                   <div class="layerRightBlock">
                     <div
                       class="layerSymbology"
-                      @click="handleSymbology(layer.id, layer.name)"
+                      @click="
+                        handleSymbology(layer.id, layer.name, layer.symbology)
+                      "
                     >
                       <!-- TOOLTIP -->
                       <b-tooltip
@@ -92,6 +96,7 @@
             tag="ul"
             v-model="visibleServices"
             v-bind="dragOptions"
+            handle=".layerDrag"
             @start="drag = true"
             @end="dragEnd()"
           >
@@ -109,20 +114,16 @@
                   <!-- LAYER VISIBILITY ICON + LAYER NAME -->
                   <div class="layerLeftBlock">
                     <!-- DRAG ICON -->
-                    <div
-                      class="layerDrag"
-                    >
-                      <b-icon
-                        icon="menu"
-                        size="is-small"
-                      >
-                      </b-icon>
+                    <div class="layerDrag">
+                      <b-icon icon="menu" size="is-small"> </b-icon>
                     </div>
 
                     <!-- LAYER VISIBILITY ICON -->
                     <div
                       class="layerVisibility"
-                      @click="handleVisibility(layer.id, layer.name)"
+                      @click="
+                        handleVisibility(layer.id, layer.name, layer.symbology)
+                      "
                     >
                       <b-icon
                         :icon="layer.show ? 'eye-outline' : 'eye-off-outline'"
@@ -135,13 +136,16 @@
                     <div class="layerName">{{ layer.name }}</div>
                   </div>
 
-                  <!-- LAYER LEGEND ICON -->
+                  <!-- OPTIONS ICON -->
                   <div class="layerRightBlock">
+                    <!-- SHOW LEGEND -->
                     <div
                       class="layerSymbology"
-                      @click="handleSymbology(layer.id, layer.name)"
+                      @click="
+                        handleSymbology(layer.id, layer.name, layer.symbology)
+                      "
                     >
-                      <!-- LEGEND TOOLTIP -->
+                      <!-- LEGEND & LEGEND TOOLTIP -->
                       <b-tooltip
                         :delay="500"
                         :label="
@@ -164,25 +168,61 @@
                       </b-tooltip>
                     </div>
 
-                    <!-- SERVICE OPTIONS -->
-                    <div class="layerOptions">
-                      <b-dropdown
-                        aria-role="list"
-                        class="is-pulled-right"
-                        position="is-bottom-left"
+                    <!-- LAYER OPACITY -->
+                    <div
+                      class="layerTransparency"
+                      @click="handeLayerSlider(layer.id)"
+                    >
+                      <!-- FILTER & FILTER TOOLTIP -->
+                      <b-tooltip
+                        :delay="500"
+                        :label="texts.tooltips.layerOpacity"
+                        type="is-light"
+                        position="is-left"
                       >
-                        <template #trigger>
-                          <b-icon icon="dots-vertical"></b-icon>
-                        </template>
-                        <b-dropdown-item
-                          aria-role="listitem"
-                          @click="filterLayer(layer.id, layer.name)"
-                          >Filter layer</b-dropdown-item
-                        >
-                        <!-- <b-dropdown-item aria-role="listitem">Action 2</b-dropdown-item>
-                <b-dropdown-item aria-role="listitem">Action 3</b-dropdown-item> -->
-                      </b-dropdown>
+                        <b-icon icon="flip-horizontal" size="is-small">
+                        </b-icon>
+                      </b-tooltip>
                     </div>
+
+                    <!-- FILTER LAYER -->
+                    <div
+                      class="layerTransparency"
+                      @click="filterLayer(layer.id, layer.name)"
+                    >
+                      <!-- FILTER & FILTER TOOLTIP -->
+                      <b-tooltip
+                        :delay="500"
+                        :label="texts.tooltips.filterLayer"
+                        type="is-light"
+                        position="is-left"
+                      >
+                        <b-icon icon="layers-search" size="is-small"> </b-icon>
+                      </b-tooltip>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- LAYER OPACITY -->
+                <div v-if="layer.showLayerSlider" class="opacity">
+                  <div class="transparencyName">
+                    {{ texts.inputs.opacity }}
+                  </div>
+                  <div
+                    class="transparencySlider"
+                    v-on:input="changeLayerOpacity(layer)"
+                  >
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value="1"
+                      v-model="layer.opacity"
+                    />
+                  </div>
+                  <div class="transparencyValue">
+                    {{ parseInt(layer.opacity * 100) }}
                   </div>
                 </div>
 
@@ -210,7 +250,7 @@
 </template>
 
 <script>
-// import PubSub from 'os-map-library/build/main/OSModule/Utils/PubSub'
+// import { PubSub } from 'os-map-library/build/main/OSModule/Utils/PubSub'
 import draggable from 'vuedraggable'
 
 export default {
@@ -230,11 +270,15 @@ export default {
       label: false,
       showTest: false,
       showFilter: false,
-      formProps: ['uno', 'dos'],
       texts: {
+        inputs: {
+          opacity: 'Opacity:'
+        },
         tooltips: {
           showLegend: 'Show Legend',
-          hideLegend: 'Hide Legend'
+          hideLegend: 'Hide Legend',
+          layerOpacity: "Change Opacity",
+          filterLayer: 'Filter Layer'
         }
       }
     }
@@ -278,20 +322,22 @@ export default {
       }
     },
     activeTab: function (tabIndex) {
-      if(tabIndex === 0) {
+      if (tabIndex === 0) {
         this.services.forEach(group => {
           group.layers.forEach(layer => {
             if (layer.service) {
               layer.service.setZIndex(layer.zIndex)
+              layer.service.setOpacity(1)
             }
           })
         })
       } else {
         this.visibleServices.forEach(service => {
           service.service.setZIndex(service.visibleIndex)
+          service.service.setOpacity(service.opacity)
         })
       }
-    }
+    },
   },
   methods: {
     findService(id) {
@@ -304,17 +350,22 @@ export default {
 
       return service
     },
-    async handleVisibility(id, name, filter) {
+    async handleVisibility(id, name, style, filter) {
       /** Find the service */
       const service = this.findService(id)
 
+      if (service.service && service.type && service.type === 'multi') {
+        this.viewer.getActiveMap().removeService(service.service)
+      }
+
       if (!service.service) {
-        const wmsService = await this.loadWmsService(id, name, filter)
+        const wmsService = await this.loadWmsService(id, name, style, filter)
         service.service = wmsService[0]
         service.legend = wmsService[1]
         service.show = true
         service.service.setZIndex(service.zIndex)
       } else {
+        /** Check if the service is already loaded with a multi flag */
         service.service.setVisible(!service.service.isVisible())
         service.show = !service.show
       }
@@ -333,7 +384,7 @@ export default {
       if (visible) {
         service.visibleIndex = this.visibleServices.length + 1
         this.visibleServices.push(service)
-        this.visibleServices = this.visibleServices.sort((a,b) => b.visibleIndex - a.visibleIndex)
+        this.visibleServices = this.visibleServices.sort((a, b) => b.visibleIndex - a.visibleIndex)
       } else {
         this.visibleServices = this.visibleServices.filter(x => x.id !== id)
         service.service.setZIndex(service.zIndex)
@@ -348,12 +399,19 @@ export default {
         n -= 1
       })
     },
-    async handleSymbology(id, name) {
+    handeLayerSlider(id) {
+      const service = this.visibleServices.find(x => x.id === id)
+      service.showLayerSlider = !service.showLayerSlider
+    },
+    changeLayerOpacity(layer) {
+      layer.service.setOpacity(layer.opacity)
+    },
+    async handleSymbology(id, name, style) {
       /** Find the service */
       const service = this.findService(id)
 
       if (!service.service) {
-        const wmsService = await this.loadWmsService(id, name)
+        const wmsService = await this.loadWmsService(id, name, style)
         service.service = wmsService[0]
         service.legend = wmsService[1]
         service.service.setVisible(false)
@@ -361,9 +419,9 @@ export default {
 
       service.symbology = !service.symbology
     },
-    async loadWmsService(id, name, filter) {
+    async loadWmsService(id, name, style, filter) {
       const wmsMap = new Map()
-      wmsMap.set(id, null)
+      wmsMap.set(id, style)
 
       const layerConfig = {
         type: "WMS",
@@ -447,7 +505,7 @@ export default {
   async mounted() {
     /** Get the map and it name */
     this.map = await this.viewer.getListOfMaps()[0]
-    this.mapName = await this.viewer.getListOfMaps()[0].getName()
+    this.mapName = this.viewer.getListOfMaps()[0].getName()
 
     let n = 1
 
@@ -460,16 +518,20 @@ export default {
       }
 
       group.layers.forEach(layer => {
+
         obj.layers.push({
           id: layer.id,
           name: layer.name,
           loaded: false,
           show: false,
           service: null,
-          symbology: false,
+          symbology: layer.style,
+          showLayerSlider: false,
+          opacity: 1,
           legend: null,
           zIndex: n,
-          visibleIndex: null
+          visibleIndex: null,
+          type: layer.type
         })
 
         n += 1
@@ -534,9 +596,15 @@ export default {
 }
 
 /* TABS */
-::v-deep .tab-content {
+:deep(.tab-content) {
   overflow-y: auto !important;
   height: calc(100vh - 52px - 40px - 41px - 100px);
+}
+
+.handle {
+  float: left;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 /* LAYERS */
@@ -587,6 +655,21 @@ export default {
   margin-top: 10px;
   margin-left: 25px;
   margin-bottom: 10px;
+}
+
+.opacity {
+  display: flex;
+  margin-top: 10px;
+  margin-left: 25px;
+  margin-bottom: 10px;
+}
+
+.transparencySlider {
+  margin-left: 20px;
+}
+
+.transparencyValue {
+  margin-left: 20px;
 }
 
 .slot {

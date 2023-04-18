@@ -17,7 +17,7 @@
         "maxOperations": 10,
         "zoomDuration": 200
       },
-      "mesaureToolOptions": {
+      "measureToolOptions": {
         "inline": true,
         "style": {
           "labelVisibility": true,
@@ -124,16 +124,34 @@
         }
       },
       "geocoderToolOptions": {
-        "inline": true,
-        "provider": "nominatim",
-        "options": {
-          "bboxLimit": [],
-          "countryCodes": ["es", "pt"],
-          "language": ["ja"],
-          "searchLimit": 5,
-          "structured": false,
-          "zoom": 16
+        "provider": "esri",
+        "_provider": "nominatim",
+        "authMode": "apikey",
+        "search": {
+          "city": null,
+          "county": null,
+          "country": ["es"],
+          "neighborhood": null,
+          "postalCode": 10004,
+          "postalExt": null,
+          "region": "Extremadura",
+          "state": null,
+          "subregion": null
         },
+        "options": {
+          "token": "AAPK4f56a884c86c44fd83a373a54c9e3cc6Rsj843ZET0-UCPLz1JmtNevPr4-LB2iauqgGmcuTIHRO_ZeYyKfpcXb33VWrSSws",
+          "mode": "direct",
+          "structured": "structured",
+          "categories": ["Address", "Postal"],
+          "langCode": "ja",
+          "location": [-6.35869, 39.49389],
+          "locationType": null,
+          "numberCandidates": 10,
+          "searchExtent": [-6.361828, 39.490785, -6.35438, 39.495677],
+          "searchZoom": 16,
+          "sourceCountry": ["es"]
+        },
+        "inline": true,
         "style": {
           "circleVertex": false,
           "fill": {
@@ -143,18 +161,9 @@
             "color": "rgba(255, 0, 0, 1)",
             "width": 3
           },
-          "labelVisibility": true
-        },
-        "styleSelect": {
-          "radius": 15,
-          "image": {
-            "src": "images/location_red.png",
-            "scale": 1
-          },
-          "text": {
-            "fillColor": "rgba(0, 0, 0, 1)",
-            "backgroundFill": "rgba(0, 0, 0, 0)",
-            "padding": [2, 2, 2, 2]
+          "_image": {
+            "_position": 4,
+            "_src": "https://openlayers.org/en/latest/examples/data/icon.png"
           }
         }
       },
@@ -229,7 +238,10 @@
         "optionView": {
           "id": "MapView",
           "center": [536971.1492213032, 5532974.047153767],
-          "extent": [-2554753.7708575055, 2614914.0553388787, 3628696.0693001123, 8451034.038968656],
+          "extent": [
+            -2554753.7708575055, 2614914.0553388787, 3628696.0693001123,
+            8451034.038968656
+          ],
           "zoom": 5,
           "projection": "3857",
           "maxZoom": 19,
@@ -452,6 +464,37 @@
           {
             "id": "z.5.1_solar_cooling_incentives",
             "name": "Solar Cooling Incentives"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Thermal Insulation - Performance Indicator",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "tech_ab_correlations_filtered",
+            "name": "Max energy loss through the wall per square meter for the heating season",
+            "type": "multi",
+            "style": "eati_h_s_max"
+          },
+          {
+            "id": "tech_ab_correlations_filtered",
+            "name": "Min energy loss through the wall per square meter for the heating season",
+            "type": "multi",
+            "style": "eati_h_s_min"
+          },
+          {
+            "id": "tech_ab_correlations_filtered",
+            "name": "Max energy loss through the wall per square meter for the cooling season",
+            "type": "multi",
+            "style": "eati_c_s_max"
+          },
+          {
+            "id": "tech_ab_correlations_filtered",
+            "name": "Min energy loss through the wall per square meter for the cooling season",
+            "type": "multi",
+            "style": "eati_c_s_min"
           }
         ]
       }
