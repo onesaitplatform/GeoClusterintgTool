@@ -473,28 +473,20 @@
         "isOpen": false,
         "layers": [
           {
-            "id": "tech_ab_correlations_filtered",
-            "name": "Max energy loss through the wall per square meter for the heating season",
-            "type": "multi",
-            "style": "eati_h_s_max"
+            "id": "tech_ab_correlations_filtered_eati_h_s_max",
+            "name": "Max Energy Loss - Heating Season"
           },
           {
-            "id": "tech_ab_correlations_filtered",
-            "name": "Min energy loss through the wall per square meter for the heating season",
-            "type": "multi",
-            "style": "eati_h_s_min"
+            "id": "tech_ab_correlations_filtered_eati_h_s_min",
+            "name": "Min Energy Loss - Heating Season"
           },
           {
-            "id": "tech_ab_correlations_filtered",
-            "name": "Max energy loss through the wall per square meter for the cooling season",
-            "type": "multi",
-            "style": "eati_c_s_max"
+            "id": "tech_ab_correlations_filtered_eati_c_s_max",
+            "name": "Max Energy Loss - Cooling Season"
           },
           {
-            "id": "tech_ab_correlations_filtered",
-            "name": "Min energy loss through the wall per square meter for the cooling season",
-            "type": "multi",
-            "style": "eati_c_s_min"
+            "id": "tech_ab_correlations_filtered_eati_c_s_min",
+            "name": "Min Energy Loss - Cooling Season"
           }
         ]
       }

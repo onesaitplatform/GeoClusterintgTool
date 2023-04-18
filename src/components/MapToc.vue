@@ -350,7 +350,7 @@ export default {
 
       return service
     },
-    async handleVisibility(id, name, style, filter) {
+    async handleVisibility(id, name, filter) {
       /** Find the service */
       const service = this.findService(id)
 
@@ -359,7 +359,7 @@ export default {
       }
 
       if (!service.service) {
-        const wmsService = await this.loadWmsService(id, name, style, filter)
+        const wmsService = await this.loadWmsService(id, name, filter)
         service.service = wmsService[0]
         service.legend = wmsService[1]
         service.show = true
@@ -406,12 +406,12 @@ export default {
     changeLayerOpacity(layer) {
       layer.service.setOpacity(layer.opacity)
     },
-    async handleSymbology(id, name, style) {
+    async handleSymbology(id, name) {
       /** Find the service */
       const service = this.findService(id)
 
       if (!service.service) {
-        const wmsService = await this.loadWmsService(id, name, style)
+        const wmsService = await this.loadWmsService(id, name)
         service.service = wmsService[0]
         service.legend = wmsService[1]
         service.service.setVisible(false)
@@ -419,9 +419,9 @@ export default {
 
       service.symbology = !service.symbology
     },
-    async loadWmsService(id, name, style, filter) {
+    async loadWmsService(id, name, filter) {
       const wmsMap = new Map()
-      wmsMap.set(id, style)
+      wmsMap.set(id)
 
       const layerConfig = {
         type: "WMS",
@@ -525,13 +525,12 @@ export default {
           loaded: false,
           show: false,
           service: null,
-          symbology: layer.style,
+          symbology: false,
           showLayerSlider: false,
           opacity: 1,
           legend: null,
           zIndex: n,
           visibleIndex: null,
-          type: layer.type
         })
 
         n += 1
