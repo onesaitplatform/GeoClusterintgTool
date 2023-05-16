@@ -5,6 +5,8 @@
 
     <!-- MAP -->
     <div class="viewer">
+
+      <!-- TABLE OF CONTENTS -->
       <MapToc
         v-if="viewer"
         class="toc"
@@ -12,6 +14,7 @@
         :tocInfo="mapConfig.toc"
       />
 
+      <!-- MAP WRAPPER -->
       <div class="mapContainer">
         <div class="navButtonBar">
           <b-button
@@ -36,14 +39,14 @@
         <div class="container-fluid" id="geoclusterMap"></div>
       </div>
 
-      <div class="mapToolbar">
+      <!-- <div class="mapToolbar">
         <b-button
           :class="identifyActive ? 'is-danger' : ''"
           size="is-small"
           icon-left="delete"
           @click="identify"
         />
-      </div>
+      </div> -->
 
       <!-- <SideBar
         :config="appConfig"
@@ -168,15 +171,6 @@ export default {
           break
       }
     },
-    identify() {
-      if (this.identifyActive) {
-        this.viewer.setOnOffTool(false, 'identifyTool')
-      } else {
-        this.viewer.setOnOffTool(true, 'identifyTool')
-      }
-
-      this.identifyActive = !this.identifyActive
-    }
   },
   beforeMount() {
     /** Load the config data */

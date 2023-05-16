@@ -18,6 +18,10 @@
       {
         "label": "Help",
         "icon": "help-circle-outline"
+      },
+      {
+        "label": "Identify",
+        "icon": "cursor-default-click-outline"
       }
     ]
   },

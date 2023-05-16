@@ -227,6 +227,11 @@
         "tolerance": 10
       }
     },
+    "loggerOptions":{
+      "publishedDefault": false,
+      "console":["WARN","ERROR"],
+      "event":["WARN","ERROR"]
+    },
     "mapOptions": [
       {
         "providerMap": "ol",
@@ -473,20 +478,81 @@
         "isOpen": false,
         "layers": [
           {
-            "id": "tech_ab_correlations_filtered_eati_h_s_max",
+            "id": "tech_correlations_filtered_eati_h_s_max",
             "name": "Max Energy Loss - Heating Season"
           },
           {
-            "id": "tech_ab_correlations_filtered_eati_h_s_min",
+            "id": "tech_correlations_filtered_eati_h_s_min",
             "name": "Min Energy Loss - Heating Season"
           },
           {
-            "id": "tech_ab_correlations_filtered_eati_c_s_max",
+            "id": "tech_correlations_filtered_eati_c_s_max",
             "name": "Max Energy Loss - Cooling Season"
           },
           {
-            "id": "tech_ab_correlations_filtered_eati_c_s_min",
+            "id": "tech_correlations_filtered_eati_c_s_min",
             "name": "Min Energy Loss - Cooling Season"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Thermal Insulation - Market Potential",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "insulation_material_quantity_m",
+            "name": "Envelope Retrofitting Output - Thickness [mm]"
+          },
+          {
+            "id": "insulation_material_quantity_m3",
+            "name": "Envelope Retrofitting Output - Volume [m3]"
+          },
+          {
+            "id": "insulation_material_quantity_nuts_m3",
+            "name": "Envelope Retrofitting Output - Volume NUT3 [m3]"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Solar Cooling - Performance Indicator",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "solarcooling_performance_indicator_flat_plate_single",
+            "name": "Flat plate Collectors - Absorption single stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_flat_plate_double",
+            "name": "Flat plate Collectors - Absorption double stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_flat_plate_adsorption",
+            "name": "Flat plate Collectors - Adsorption"
+          },
+          {
+            "id": "solarcooling_performance_indicator_vacuum_tube_single",
+            "name": "Vacuum tube Collectors - Absorption single stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_vacuum_tube_double",
+            "name": "Vacuum tube Collectors - Absorption double stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_vacuum_tube_adsorption",
+            "name": "Vacuum tube Collectors - Adsorption"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "name": "Solar Cooling - Market Potential",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "solarcooling_market_potential",
+            "name": "Market Potential"
           }
         ]
       }

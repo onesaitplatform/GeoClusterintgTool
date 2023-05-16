@@ -246,6 +246,45 @@
         :icon="expanded ? 'chevron-double-left' : 'chevron-double-right'"
       />
     </span>
+
+    <!-- FILTER -->
+    <b-modal v-model="showFilter" has-modal-card>
+      <div class="card">
+        <div class="card-content">
+          <!-- MODAL TITLE -->
+          <header class="modal-card-head">
+            <p class="modal-card-title">Filter layer</p>
+            <button type="button" class="delete" @click="showFilter = false" />
+          </header>
+
+          <!-- MODAL CONTENT -->
+          <div class="overflow">
+          <section
+            class="modal-card-body"
+            v-for="filter in availableFilters"
+            :key="filter.name"
+          >
+            <b-field :label="filter.name">
+              <b-input
+                :value="filter.currentValue"
+                v-model.number="filter.currentValue"
+                type="number"
+              >
+              </b-input>
+            </b-field>
+            <small>Default value: {{ filter.defaultValue }}</small>
+          </section>
+
+          </div>
+
+          <!-- MODAL FOOTER -->
+          <footer class="modal-card-foot">
+            <b-button label="Filter" type="is-primary" @click="sendFilter" />
+            <b-button label="Cancel" @click="showFilter = false" />
+          </footer>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
@@ -263,6 +302,7 @@ export default {
       mapName: null,
       services: [],
       visibleServices: [],
+      availableFilters: [],
       url: 'https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms',
       url2: 'https://development.onesaitplatform.com/geoserver/rest/workspaces/metabuilding_geocluster/datastores/Onesait+Platform+Development+PostGIS/featuretypes/',
       expanded: true,
@@ -270,6 +310,7 @@ export default {
       label: false,
       showTest: false,
       showFilter: false,
+      filterLayerId: null,
       texts: {
         inputs: {
           opacity: 'Opacity:'
@@ -338,6 +379,12 @@ export default {
         })
       }
     },
+    showFilter: function (status) {
+      if (!status) {
+        this.filterLayerId = null
+        this.availableFilters = []
+      }
+    }
   },
   methods: {
     findService(id) {
@@ -445,7 +492,8 @@ export default {
     },
     async filterLayer(id) {
 
-      const availableFilters = []
+      this.filterLayerId = id
+      this.availableFilters = []
 
       await fetch(this.url2 + id + '.json')
         .then((response) => response.json())
@@ -459,34 +507,39 @@ export default {
 
               if (!virtualTable.parameter) return
 
+              if (!Array.isArray(virtualTable.parameter)) {
+                virtualTable.parameter = [virtualTable.parameter]
+              }
+
               virtualTable.parameter.forEach(param => {
                 param.currentValue = param.defaultValue
-                availableFilters.push(param)
+                this.availableFilters.push(param)
               })
+
             }
 
           })
         })
 
-      this.showFilter = true
+      if (this.availableFilters.length > 0) {
+        this.showFilter = true
+      } else {
+        this.$buefy.notification.open({
+          duration: 5000,
+          message: `This layer has no available filters`,
+          type: 'is-info',
+          hasIcon: true
+        })
+      }
 
-      const newFilters = []
 
-      availableFilters.forEach(filter => {
-        const userFilter = prompt("Add a filter for'" + filter.name + "'", filter.currentValue)
-        const newFilter = {
-          name: filter.name,
-          value: userFilter
-        }
-        newFilters.push(newFilter)
-      })
-
-      if (newFilters.length === 0) return
-
-      this.sendFilter(id, newFilters)
 
     },
-    sendFilter(id, filter) {
+    sendFilter() {
+      /** Get the service ID and the filters to apply */
+      const id = this.filterLayerId
+      const filter = this.availableFilters
+
       /** Find the service */
       const service = this.findService(id)
 
@@ -495,11 +548,22 @@ export default {
       let viewparamFilter = ''
 
       filter.forEach(param => {
-        viewparamFilter += param.name + ':' + param.value + ';'
+        viewparamFilter += param.name + ':' + param.currentValue + ';'
       })
 
+      /** Apply the filter */
       service.service.addFilter('viewparams', viewparamFilter)
 
+      /** Close the modal */
+      this.showFilter = false
+
+      /** Send a notification */
+      this.$buefy.notification.open({
+        duration: 5000,
+        message: `Layer filtered`,
+        type: 'is-success',
+        hasIcon: true
+      })
     },
   },
   async mounted() {
@@ -710,5 +774,20 @@ export default {
   display: flex;
   flex-direction: column;
   column-gap: 60px;
+}
+
+.card {
+  width: 300px !important;
+}
+
+.overflow {
+  max-height: 450px;
+  overflow-y:auto;
+}
+
+.filterSlot {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 </style>
