@@ -88,7 +88,7 @@ export default {
       selectLegendMsg: 'Please, select a layer to show it legend',
       filterbuttonMsg: 'Filter',
       availableFilters: [],
-      paramsUrl: 'https://development.onesaitplatform.com/geoserver/rest/workspaces/metabuilding_geocluster/datastores/Onesait+Platform+Development+PostGIS/featuretypes/'
+      paramsUrl: 'http://localhost:8083/geoserver/rest/workspaces/metabuilding_geocluster/datastores/Onesait+Platform+Development+PostGIS/featuretypes/'
     }
   },
   props: {

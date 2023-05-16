@@ -56,7 +56,7 @@ import MapToc from './MapToc.vue'
 import SideBar from './SideBar.vue'
 import FooterBar from './FooterBar.vue'
 
-import Viewer from 'os-map-ol-library/build/main/Viewer'
+import Viewer from 'os-map-library/build/main/Viewer'
 
 export default {
   data() {
@@ -65,7 +65,7 @@ export default {
       appConfig: null,
       viewer: null,
       serviceName: 'Geocluster',
-      serviceUrl: 'https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms?',
+      serviceUrl: 'http://localhost:8083/geoserver/metabuilding_geocluster/wms?',
       wmsService: null,
       wmsFilter: null,
       wmsLegend: null,
@@ -147,7 +147,7 @@ export default {
         this.wmsFilter = filter
 
         /** Get the legend */
-        const fetchUrl = await fetch('https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=' + layerName)
+        const fetchUrl = await fetch('http://localhost:8083/geoserver/metabuilding_geocluster/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=' + layerName)
         this.wmsLegend = fetchUrl.url
       }
     },
