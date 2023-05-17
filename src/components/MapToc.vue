@@ -754,6 +754,14 @@ export default {
   cursor: pointer;
 }
 
+.layerSymbology {
+  cursor: pointer
+}
+
+.layerTransparency {
+  cursor: pointer
+}
+
 .card-content {
   padding: 6px;
 }
