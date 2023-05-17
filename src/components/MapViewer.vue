@@ -48,7 +48,7 @@
 <script>
   /** Import the app configuration */
 
-  /** Import the Map Config from the global variable */
+  /** Import the global variables */
   import { appConfigUrl, mapConfigUrl, geoserverUrl } from '@/app.config'
 
   import NavBar from './NavBar.vue'
