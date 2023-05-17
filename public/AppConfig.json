@@ -1,0 +1,271 @@
+{
+  "header": {
+    "active": true,
+    "show": true,
+    "logo": {
+      "url": "https://www.idonial.com/images/2020/PROYECTOS/8486_metabuilding_logo.png",
+      "alt": "Metabuilding Labs"
+    },
+    "buttons": [
+      {
+        "label": "Documentation",
+        "icon": "file-document-outline"
+      },
+      {
+        "label": "Print",
+        "icon": "printer"
+      },
+      {
+        "label": "Help",
+        "icon": "help-circle-outline"
+      },
+      {
+        "label": "Identify",
+        "icon": "cursor-default-click-outline"
+      }
+    ]
+  },
+  "toc": {
+    "content": [
+      {
+        "id": 0,
+        "name": "📦 Geo-Descriptor",
+        "isOpen": true,
+        "groups": [
+          {
+            "id": 0,
+            "name": "🌍 Default",
+            "isOpen": true,
+            "layers": [
+              {
+                "id": "nuts_info",
+                "name": "EU Territorial Units (NUTS3)"
+              },
+              {
+                "id": "ge2o_pilots",
+                "name": "GE2O Pilots"
+              }
+            ]
+          },
+          {
+            "id": 1,
+            "name": "⛅ Climate",
+            "isOpen": false,
+            "layers": [
+              {
+                "id": "z.1.1_hdd",
+                "name": "Heating Degrees Days"
+              },
+              {
+                "id": "z.1.2_cdd",
+                "name": "Cooling Degrees Days"
+              },
+              {
+                "id": "z.1.3_hsouth_45",
+                "name": "Annual incident energy on a south oriented plane with 45° Slope"
+              },
+              {
+                "id": "z.1.4_h0",
+                "name": "Annual incident energy on a south oriented vertical surface"
+              },
+              {
+                "id": "z.1.5_t_air_a",
+                "name": "Avg. ambient temperature over year"
+              },
+              {
+                "id": "z.1.6_t_air_h_s",
+                "name": "Avg. ambient temperature over heating season"
+              },
+              {
+                "id": "z.1.7_t_air_c_s",
+                "name": "Avg. ambient temperature over cooling season"
+              },
+              {
+                "id": "z.1.8_t_air_max",
+                "name": "Maximum ambient temperature over"
+              },
+              {
+                "id": "z.1.9_t_gw_a",
+                "name": "Avg. ground / water temperature over year"
+              },
+              {
+                "id": "z.1.10_t_gw_h_s",
+                "name": "Avg. ground / water temperature over heating season"
+              },
+              {
+                "id": "z.1.11_t_gw_c_s",
+                "name": "Avg. ground / water temperature over cooling season"
+              },
+              {
+                "id": "z.1.12_t_air_wb_c_s",
+                "name": "Avg. ambient wet bulb temperature over cooling season"
+              },
+              {
+                "id": "z.1.13_t_air_c_s_daylight",
+                "name": "Avg. ambient over cooling season during daylight"
+              },
+              {
+                "id": "z.1.14_g_south_45",
+                "name": "Avg. solar irradiation during daylight over cooling season"
+              }
+            ]
+          },
+          {
+            "id": 2,
+            "name": "🏦 Building Typology",
+            "isOpen": false,
+            "layers": [
+              {
+                "id": "z.2.1_bc_age",
+                "name": "Age of Construction"
+              },
+              {
+                "id": "z.2.2.1_residential_building",
+                "name": "Use Residential"
+              },
+              {
+                "id": "z.2.2.1.1_residential_single",
+                "name": "Use Residential - Single"
+              },
+              {
+                "id": "z.2.2.1.2_residential_flat",
+                "name": "Use Residential - Apartment Flats"
+              },
+              {
+                "id": "z.2.3.1_uvalue_wall",
+                "name": "U Value Existing - Wall"
+              },
+              {
+                "id": "z.2.3.2_uvalue_roof",
+                "name": "U Value Existing - Roof"
+              },
+              {
+                "id": "z.2.3.3_uvalue_floor",
+                "name": "U Value Existing - Floor"
+              },
+              {
+                "id": "Z.2.4.1",
+                "name": "U Value Target - Wall"
+              },
+              {
+                "id": "z.2.4.2_uvalue_roof",
+                "name": "U Value Target - Roof"
+              },
+              {
+                "id": "Z.2.4.3",
+                "name": "U Value Target - Floor"
+              },
+              {
+                "id": "Z_2_5_1",
+                "name": "Heating System - Central"
+              },
+              {
+                "id": "Z.2.5.2",
+                "name": "Heating System - Individual"
+              }
+            ]
+          },
+          {
+            "id": 3,
+            "name": "💹 Social Economic",
+            "isOpen": false,
+            "layers": [
+              {
+                "id": "z.3.1_avg_population",
+                "name": "Population living in the area at last census"
+              },
+              {
+                "id": "z.3.2_gdp_last_census",
+                "name": "Gross domestic product of the area at last census"
+              },
+              {
+                "id": "z.3.3_gdp_construction",
+                "name": "Gross domestic product in construction"
+              },
+              {
+                "id": "z.3.4_employment_rate",
+                "name": "Employment rate"
+              },
+              {
+                "id": "z.3.5_employment_construction",
+                "name": "Employment in construction"
+              },
+              {
+                "id": "Z.3.6",
+                "name": "Labour cost"
+              },
+              {
+                "id": "z.3.7_gas_price",
+                "name": "Gas prices for household consumers"
+              },
+              {
+                "id": "z.3.8_electricity_price",
+                "name": "Electricity prices for household consumers"
+              },
+              {
+                "id": "Z.3.9",
+                "name": "Disposable income of households"
+              },
+              {
+                "id": "z.3.10_electricity_consumption",
+                "name": "Electricity consumption of households"
+              }
+            ]
+          },
+          {
+            "id": 4,
+            "name": "📖 Regulations",
+            "isOpen": false,
+            "layers": [
+              {
+                "id": "ec_country",
+                "name": "EC Countries"
+              }
+            ]
+          },
+          {
+            "id": 5,
+            "name": "💶 Financial Incentives",
+            "isOpen": false,
+            "layers": [
+              {
+                "id": "z.5.1_solar_cooling_incentives",
+                "name": "Solar Cooling Incentives"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "active": true,
+    "show": true,
+    "left": [
+
+      {
+        "id": 0,
+        "text": null,
+        "icon": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAMAAACtdX32AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAflBMVEUAM5kCNJgBNJgALp4AMpoAK6EAMJwAMZsyUXsBM5kFNpZea2EjSIQAJ6WSi0EJOZO7oylBWnIKOZMENZcDNZdebGC6oylfbGBCWnJCW3EiSIQAKKQAKqKSikKRikIALZ+Ti0EIOJQAJqYALKALOZMLOpIBNJkzUnozUXv///80RW/jAAAAAWJLR0QpyreFJAAAAAd0SU1FB+YKEhAWFkgDdnwAAADhSURBVCjPdZLZcsMgDEVlIQTYJMYYu7VD6yxd8v9fGDJtk+LlDjyIAxrpCoBMRQGbKhCEANy4QZKV1oolrUADZWV3+/3OVmUKFuLaNdJ72TjPS9p6Skl/tm9nMMjOQUImpSXoX2TIMLJ9fVREw8iYF8aH+DjBeOCsOBT6zdPvkSH/rsX/58Wkj6cnPh31lJlj1PnyjKazyjs3yjZ/Zhho7AyHWDkivDeGRK6KeWNApScgQ2kB+XJpO3/0g6zry9B/rpj6BW033kcydu3aSACi4u8rq7g+bwgGhUATYFPzz3QD1KgJ8SYGqosAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMTAtMThUMTY6MjI6MjIrMDA6MDAH14E7AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTEwLTE4VDE2OjIyOjIyKzAwOjAwdoo5hwAAAABJRU5ErkJggg=="
+      }
+    ],
+    "center": [
+      {
+        "id": 0,
+        "text": "2023 © Metabuilding Geoportal - H2020 Project",
+        "icon": "data:image/png;base64,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"
+      }
+    ],
+    "right": [
+      {
+        "id": 0,
+        "text": "Powered by Onesait Platform"
+      }
+    ]
+  },
+  "config": {
+    "wms": {
+      "url": "https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms?service=WMS&version=1.1.0&request=GetMap&layers="
+    }
+  }
+}
