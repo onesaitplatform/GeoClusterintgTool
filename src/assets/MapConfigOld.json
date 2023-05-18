@@ -17,7 +17,7 @@
         "maxOperations": -1,
         "duration": 200
       },
-      "mesaureToolOptions": {
+      "measureToolOptions": {
         "inline": true,
         "radius": 5,
         "style": {

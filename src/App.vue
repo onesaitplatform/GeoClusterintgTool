@@ -24,7 +24,16 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 } */
+html {
+  overflow-x: hidden !important;
+  overflow-y: hidden !important;
+}
 body {
   margin: 0 !important;
+}
+
+.button .icon:first-child:last-child {
+  margin-left: calc(-0.5em - 1px);
+  margin-right: calc(-0.5em - 1px) !important;
 }
 </style>

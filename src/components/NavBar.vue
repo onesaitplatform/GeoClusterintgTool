@@ -7,8 +7,24 @@
     </template>
     <template #start>
       <div v-for="option in config.header.buttons" :key="option.label">
+
         <b-navbar-item v-on:click="action(option.label)">
-          <b-icon :icon="option.icon"> </b-icon>{{ option.label }}
+          <b-button
+            v-if="option.label === 'Identify'"
+            :label="option.label"
+            :type="
+              option.label === 'Identify' && identifyActive ? 'is-primary' : ''
+            "
+            :icon-left="option.icon"
+          />
+
+          <span v-else>
+            <b-icon
+              :icon="option.icon"
+            >
+            </b-icon
+            >{{ option.label }}
+          </span>
         </b-navbar-item>
       </div>
     </template>
@@ -21,6 +37,7 @@
 export default {
   data() {
     return {
+      identifyActive: false,
       printFormat: 'PDF',
       printOptions: {
         "pageSize": "A4",
@@ -51,12 +68,23 @@ export default {
           this.printMap()
           break
 
-        default:
+        case 'Identify':
+          this.identify()
           break
+
       }
     },
     printMap() {
-      this.viewer.exportMap(this.printFormat,this.printOptions)
+      this.viewer.exportMap(this.printFormat, this.printOptions)
+    },
+    identify() {
+      if (this.identifyActive) {
+        this.viewer.setOnOffTool(false, 'identifyTool')
+      } else {
+        this.viewer.setOnOffTool(true, 'identifyTool')
+      }
+
+      this.identifyActive = !this.identifyActive
     }
   }
 }

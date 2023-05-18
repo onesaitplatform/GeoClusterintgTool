@@ -8,16 +8,8 @@
     },
     "buttons": [
       {
-        "label": "Documentation",
-        "icon": "file-document-outline"
-      },
-      {
         "label": "Print",
         "icon": "printer"
-      },
-      {
-        "label": "Help",
-        "icon": "help-circle-outline"
       },
       {
         "label": "Identify",
