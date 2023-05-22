@@ -1,11 +1,10 @@
 <template>
-  <div class="app">
+  <div v-if="loaded" class="app">
     <!-- HEADER -->
     <NavBar v-if="viewer" :config="appConfig" :viewer="viewer" />
 
     <!-- MAP -->
     <div class="viewer">
-
       <!-- TABLE OF CONTENTS -->
       <MapToc
         v-if="viewer"
@@ -39,23 +38,6 @@
         <div class="container-fluid" id="geoclusterMap"></div>
       </div>
 
-      <!-- <div class="mapToolbar">
-        <b-button
-          :class="identifyActive ? 'is-danger' : ''"
-          size="is-small"
-          icon-left="delete"
-          @click="identify"
-        />
-      </div> -->
-
-      <!-- <SideBar
-        :config="appConfig"
-        :viewer="viewer"
-        :service="wmsService"
-        :layerId="wmsName"
-        :legend="wmsLegend"
-        :title="wmsTitle"
-      /> -->
     </div>
 
     <!-- FOOTER -->
@@ -64,189 +46,185 @@
 </template>
 
 <script>
-/** Import the app configuration */
-import AppConfig from '../assets/AppConfig.json'
-import MapConfig from '../assets/MapConfig.json'
+  /** Import the app configuration */
 
-import NavBar from './NavBar.vue'
-import MapToc from './MapToc.vue'
-// import SideBar from './SideBar.vue'
-import FooterBar from './FooterBar.vue'
+  /** Import the global variables */
+  import { appConfigUrl, mapConfigUrl, geoserverUrl } from '@/app.config'
 
-import { Viewer } from 'os-map-library/build/main/Viewer'
+  import NavBar from './NavBar.vue'
+  import MapToc from './MapToc.vue'
+  import FooterBar from './FooterBar.vue'
 
-export default {
-  data() {
-    return {
-      loaded: false,
-      appConfig: null,
-      mapConfig: null,
-      viewer: null,
-      serviceName: 'Geocluster',
-      serviceUrl: 'https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms?',
-      wmsService: null,
-      wmsFilter: null,
-      wmsLegend: null,
-      wmsName: null,
-      wmsTitle: null,
-      currentLayer: null,
-      identifyActive: false,
-    }
-  },
-  components: {
-    NavBar,
-    MapToc,
-    // SideBar,
-    FooterBar
-  },
-  methods: {
-    loadData() {
-      /** Get the application configuration */
-      this.appConfig = AppConfig
+  import { Viewer } from 'os-map-library/build/main/Viewer'
 
-      /** Get the map configuration */
-      this.mapConfig = JSON.parse(JSON.stringify(MapConfig.mapConfig))
-    },
-    async loadMap() {
-      /** Create the Viewer class (that will contain the map viewers) */
-      this.viewer = new Viewer()
-
-      /** Load the maps in the viewer */
-      await this.viewer.loadMaps(this.mapConfig, 'geoclusterMap')
-
-      this.loaded = true
-
-    },
-    async handleWmsLayer(layerName, filter) {
-
-      if (this.wmsService) {
-        this.viewer.getActiveMap().removeServiceById(this.wmsService.getId())
-        this.wmsService = null
-        this.wmsLegend = null
-        this.wmsName = null
-        this.wmsTitle = null
+  export default {
+    data() {
+      return {
+        loaded: false,
+        appConfig: null,
+        mapConfig: null,
+        viewer: null,
+        serviceName: 'Geocluster',
+        serviceUrl: geoserverUrl + 'metabuilding_geocluster/wms?',
+        wmsService: null,
+        wmsFilter: null,
+        wmsLegend: null,
+        wmsName: null,
+        wmsTitle: null,
+        currentLayer: null,
+        identifyActive: false,
       }
+    },
+    components: {
+      NavBar,
+      MapToc,
+      FooterBar,
+    },
+    methods: {
+      async loadData() {
+        /** Get the application configuration */
+        const appConfigResponse = await fetch(appConfigUrl)
+        const appConfigData = await appConfigResponse.json()
+        this.appConfig = appConfigData
 
-      if (!this.wmsService) {
+        /** Get the map configuration */
+        const mapConfigResponse = await fetch(mapConfigUrl)
+        const mapConfigData = await mapConfigResponse.json()
+        this.mapConfig = JSON.parse(JSON.stringify(mapConfigData.mapConfig))
 
-        /** Setup the Map with the layer and styles to create the WMS */
-        const wmsMap = new Map()
-        wmsMap.set(layerName, null)
+        this.loaded = true
+      },
+      async loadMap() {
+        /** Create the Viewer class (that will contain the map viewers) */
+        this.viewer = new Viewer()
 
-        const layerConfig = {
-          type: "WMS",
-          url: this.serviceUrl,
-          wmsSublayers: wmsMap,
-          customName: this.serviceName,
+        /** Load the maps in the viewer */
+        await this.viewer.loadMaps(this.mapConfig, 'geoclusterMap')
+      },
+      async handleWmsLayer(layerName, filter) {
+        if (this.wmsService) {
+          this.viewer.getActiveMap().removeServiceById(this.wmsService.getId())
+          this.wmsService = null
+          this.wmsLegend = null
+          this.wmsName = null
+          this.wmsTitle = null
         }
 
-        this.wmsService = await this.viewer.addService(layerConfig)
+        if (!this.wmsService) {
+          /** Setup the Map with the layer and styles to create the WMS */
+          const wmsMap = new Map()
+          wmsMap.set(layerName, null)
 
-        /** Get the title of the layer */
-        this.wmsName = this.wmsService.getSelectedLayers()[0].getLayerName()
-        this.wmsTitle = this.wmsService.getSelectedLayers()[0].getTitle()
+          const layerConfig = {
+            type: 'WMS',
+            url: this.serviceUrl,
+            wmsSublayers: wmsMap,
+            customName: this.serviceName,
+          }
 
-        /** Store the filter */
-        this.wmsFilter = filter
+          this.wmsService = await this.viewer.addService(layerConfig)
 
-        /** Get the legend */
-        const fetchUrl = await fetch('https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=' + layerName)
-        this.wmsLegend = fetchUrl.url
-      }
+          /** Get the title of the layer */
+          this.wmsName = this.wmsService.getSelectedLayers()[0].getLayerName()
+          this.wmsTitle = this.wmsService.getSelectedLayers()[0].getTitle()
+
+          /** Store the filter */
+          this.wmsFilter = filter
+
+          /** Get the legend */
+          const fetchUrl = await fetch(
+            geoserverUrl +
+              'metabuilding_geocluster/wms?REQUEST=GetLegendGraphic&VERSION=1.0.0&FORMAT=image/png&LAYER=' +
+              layerName
+          )
+          this.wmsLegend = fetchUrl.url
+        }
+      },
+      navAction(action) {
+        if (!action) return
+
+        switch (action) {
+          case 'home':
+            this.viewer.goToInitExtent()
+            break
+
+          case 'plus':
+            this.viewer.zoomIn()
+            break
+
+          case 'minus':
+            this.viewer.zoomOut()
+            break
+        }
+      },
     },
-    navAction(action) {
-      if (!action) return
+    async beforeMount() {
+      /** Load the config data */
+      await this.loadData()
 
-      switch (action) {
-        case 'home':
-          this.viewer.goToInitExtent()
-          break
-
-        case 'plus':
-          this.viewer.zoomIn()
-          break
-
-        case 'minus':
-          this.viewer.zoomOut()
-          break
-      }
+      /** Create the map */
+      await this.loadMap()
     },
-  },
-  beforeMount() {
-    /** Load the config data */
-    this.loadData()
-  },
-  mounted() {
-    /** Create the map */
-    this.loadMap()
-
-    // PubSub.subscribe('updateListOfLayers', this.updateListOfLayers.bind(this));
-
-    /** Allow the app to load to avoid flickering and async problems */
-
-    // console.log(this.viewer.getActiveMap())
-
   }
-}
 </script>
 
 <style scoped>
-body,
-html {
-  margin: auto;
-}
-.app {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  background-color: white;
-}
+  body,
+  html {
+    margin: auto;
+  }
+  .app {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+  }
 
-.viewer {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  height: 100%;
-}
+  .viewer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+  }
 
-.toc {
-  margin: 0 6px 6px 6px;
-}
+  .toc {
+    margin: 0 6px 6px 6px;
+  }
 
-.mapContainer {
-  order: 0;
-  flex: 0 1 auto;
-  align-self: auto;
-  height: auto;
-  width: 100%;
-}
+  .mapContainer {
+    order: 0;
+    flex: 0 1 auto;
+    align-self: auto;
+    height: auto;
+    width: 100%;
+  }
 
-.mapToolbar {
-  width: 48px;
-  max-width: 48px;
-  min-width: 48px;
-}
+  .mapToolbar {
+    width: 48px;
+    max-width: 48px;
+    min-width: 48px;
+  }
 
-.navButtonBar {
-  display: flex;
-  flex-direction: column;
-  width: fit-content;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-  z-index: 10;
-  border-radius: 6px;
-  box-shadow: 0px 2px 3px #00000026, 0px 5px 4px #0000004d;
-  margin: 10px 0 0 10px;
-}
+  .navButtonBar {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    z-index: 10;
+    border-radius: 6px;
+    box-shadow: 0px 2px 3px #00000026, 0px 5px 4px #0000004d;
+    margin: 10px 0 0 10px;
+  }
 
-.button .icon:first-child:last-child {
-  margin-left: calc(-0.5em - 1px);
-  margin-right: calc(-0.5em - 1px) !important;
-}
+  .button .icon:first-child:last-child {
+    margin-left: calc(-0.5em - 1px);
+    margin-right: calc(-0.5em - 1px) !important;
+  }
 
-/* .button {
+  /* .button {
   width: 20px;
   height: 33px;
 }
@@ -255,12 +233,12 @@ html {
   margin-left: 10px !important;
 } */
 
-.button span {
-  margin-left: -0.5rem !important;
-}
+  .button span {
+    margin-left: -0.5rem !important;
+  }
 
-#geoclusterMap {
-  min-height: 80%;
-  height: 100%;
-}
+  #geoclusterMap {
+    min-height: 80%;
+    height: 100%;
+  }
 </style>

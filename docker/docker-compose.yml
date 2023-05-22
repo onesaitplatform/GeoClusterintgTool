@@ -1,0 +1,101 @@
+version: "2.2"
+
+services:
+  postgis:
+    container_name: postgis
+    image: kartoza/postgis:13-3.1
+    ports:
+      - "5432:5432"
+    environment:
+      - "FORCE_SSL=false"
+      - "POSTGRES_DB=gis,gwc"
+      - "POSTGRES_PASS=docker"
+      - "POSTGRES_USER=docker"
+      - "ALLOW_IP_RANGE=0.0.0.0/0"
+      - "LANG=en_US.UTF-8"
+      - "LANGUAGE=en_US:en"
+      - "LC_ALL=en_US.UTF-8"
+    volumes:
+      - ./postgis-data:/var/lib/postgresql
+    networks:
+      - metabuilding-network
+  geoserver:
+    container_name: geoserver
+    image: kartoza/geoserver:2.22.0
+    ports: 
+      - "8080:8080"
+    environment:
+      - GEOSERVER_ADMIN_PASSWORD=geoserver
+      - GEOSERVER_ADMIN_USER=admin
+      - COMMUNITY_EXTENSIONS=geostyler-plugin
+    volumes:
+      - ./geoserver-data:/opt/geoserver/data_dir:rw
+    networks:
+      - metabuilding-network
+  geo:
+    container_name: geo
+    image: metabuilding-gis:v2.0.0
+    ports:
+      - "80:80"
+    networks:
+      - metabuilding-network
+    environment:
+      VUE_APP_FRONT_CONFIG_URL: http://localhost:80/AppConfig.json
+      VUE_APP_MAP_CONFIG_URL: http://localhost:80/MapConfig.json
+      VUE_APP_GEOSERVER_URL: http://localhost:8080/geoserver
+      VUE_APP_API_BASE_URL: http://localhost:80/
+    volumes:
+      - ./geo-data/MapConfig.json:/usr/share/nginx/html/MapConfig.json:rw
+  dataflow:
+    image: registry.onesaitplatform.com/onesaitplatform/dataflow:3.23.0
+    container_name: dataflow
+    networks:
+      - metabuilding-network
+    ports:
+      - "18630:18630"
+      - "8000:8000"
+      - "1105:1105"
+      - "9999:9999"
+    environment:
+      SDC_CONF_PACKAGE_MANAGER_REPOSITORY_LINKS: http://dataflow-repository/libs/
+      SDC_CONF_UI_HOSTED_HELP_BASE_URL: http://localhost:8081
+      SDC_CONF_ANTENNADOCTOR.UPDATE.ENABLE: 'false'
+      SDC_JAVA_OPTS: -DDataFactoryBuilder.OverRunLimit=20485760 -Doverrun.reader.read.limit=20485760 -Xmx10g -Xms10g
+    volumes: 
+      - ./dataflow-data/data:/data
+      - ./dataflow-data/etc/sdc:/etc/sdc
+      - ./dataflow-data/libs:/opt/streamsets-datacollector-3.23.0/streamsets-libs
+      - ./dataflow-data/libs-extras:/opt/streamsets-datacollector-3.23.0/streamsets-libs-extras
+  
+  dataflow-repository:
+    image: registry.onesaitplatform.com/onesaitplatform/dataflow-libraries:3.23.0
+    container_name: dataflow-libraries
+    ports:
+      - "8082:80"
+    networks:
+      - metabuilding-network
+
+  dataflow-docs:
+    image: registry.onesaitplatform.com/onesaitplatform/dataflow-docs:3.23.0
+    container_name: dataflow-docs
+    ports:
+      - "8081:80"
+    networks:
+      - metabuilding-network
+  
+  gdal:
+    container_name: gdal
+    image: osgeo/gdal:latest
+    networks:
+      - metabuilding-network
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./gdal-data/shared-files:/shared-files
+
+networks:
+  metabuilding-network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.90.0/24

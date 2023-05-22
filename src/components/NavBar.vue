@@ -7,6 +7,7 @@
     </template>
     <template #start>
       <div v-for="option in config.header.buttons" :key="option.label">
+
         <b-navbar-item v-on:click="action(option.label)">
           <b-button
             v-if="option.label === 'Identify'"

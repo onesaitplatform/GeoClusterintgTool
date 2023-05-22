@@ -289,8 +289,10 @@
 </template>
 
 <script>
-// import { PubSub } from 'os-map-library/build/main/OSModule/Utils/PubSub'
 import draggable from 'vuedraggable'
+
+  /** Import the Map Config from the global variable */
+  import { geoserverUrl } from '@/app.config'
 
 export default {
   data() {
@@ -303,8 +305,8 @@ export default {
       services: [],
       visibleServices: [],
       availableFilters: [],
-      url: 'https://development.onesaitplatform.com/geoserver/metabuilding_geocluster/wms',
-      url2: 'https://development.onesaitplatform.com/geoserver/rest/workspaces/metabuilding_geocluster/datastores/Onesait+Platform+Development+PostGIS/featuretypes/',
+      url: geoserverUrl + '/metabuilding_geocluster/wms',
+      url2: geoserverUrl + '/rest/workspaces/metabuilding_geocluster/datastores/Onesait+Platform+Development+PostGIS/featuretypes/',
       expanded: true,
       show: true,
       label: false,
