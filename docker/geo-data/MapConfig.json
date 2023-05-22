@@ -1,0 +1,580 @@
+{
+  "mapConfig": {
+    "mainMapOptions": {
+      "mainDivMapId": "geoclusterMap",
+      "maxNumberMaps": 1,
+      "displayGrid": false
+    },
+    "exportConfigOptions": {
+      "pdfExportOptions": {
+        "logoUrl": "https://www.idonial.com/images/2020/PROYECTOS/8486_metabuilding_logo.png",
+        "logoWidth": 60,
+        "logoXPosition": 230
+      }
+    },
+    "toolsOptions": {
+      "historyExtentOptions": {
+        "maxOperations": 10,
+        "zoomDuration": 200
+      },
+      "measureToolOptions": {
+        "inline": true,
+        "style": {
+          "labelVisibility": true,
+          "circleVertex": true,
+          "fill": {
+            "color": "rgba(231, 84, 128, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(231, 84, 128, 1)",
+            "lineDash": [10, 10],
+            "width": 2
+          },
+          "text": {
+            "resolution": 255
+          }
+        }
+      },
+      "infoToolOptions": {
+        "inline": true,
+        "tolerance": 5,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121,197,180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(120,116,180, 1)",
+            "width": 3
+          }
+        }
+      },
+      "showCoordToolOptions": {
+        "inline": true
+      },
+      "selectByGeomToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(255, 234,128, 0.5)"
+          },
+          "stroke": {
+            "color": "rgba(255, 234, 128, 1)",
+            "width": 3
+          }
+        }
+      },
+      "selectByAttrToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(247, 172,111, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(0, 255, 255, 1)",
+            "width": 3
+          }
+        }
+      },
+      "bufferToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(232, 138, 162, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(121, 197, 180, 1)",
+            "width": 3
+          }
+        }
+      },
+      "intersectToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121, 197, 180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(99, 159, 203, 1)",
+            "width": 3
+          }
+        }
+      },
+      "proximityToolOptions": {
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "radius": 6,
+          "fill": {
+            "color": "rgba(121, 197, 180, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(99, 159, 203, 1)",
+            "width": 3
+          }
+        }
+      },
+      "geocoderToolOptions": {
+        "provider": "esri",
+        "_provider": "nominatim",
+        "authMode": "apikey",
+        "search": {
+          "city": null,
+          "county": null,
+          "country": ["es"],
+          "neighborhood": null,
+          "postalCode": 10004,
+          "postalExt": null,
+          "region": "Extremadura",
+          "state": null,
+          "subregion": null
+        },
+        "options": {
+          "token": "AAPK4f56a884c86c44fd83a373a54c9e3cc6Rsj843ZET0-UCPLz1JmtNevPr4-LB2iauqgGmcuTIHRO_ZeYyKfpcXb33VWrSSws",
+          "mode": "direct",
+          "structured": "structured",
+          "categories": ["Address", "Postal"],
+          "langCode": "ja",
+          "location": [-6.35869, 39.49389],
+          "locationType": null,
+          "numberCandidates": 10,
+          "searchExtent": [-6.361828, 39.490785, -6.35438, 39.495677],
+          "searchZoom": 16,
+          "sourceCountry": ["es"]
+        },
+        "inline": true,
+        "style": {
+          "circleVertex": false,
+          "fill": {
+            "color": "rgba(106, 90, 205, 0.7)"
+          },
+          "stroke": {
+            "color": "rgba(255, 0, 0, 1)",
+            "width": 3
+          },
+          "_image": {
+            "_position": 4,
+            "_src": "https://openlayers.org/en/latest/examples/data/icon.png"
+          }
+        }
+      },
+      "routingToolOptions": {
+        "inline": true,
+        "provider": "OpenRoute Service",
+        "language": "en",
+        "token": "5b3ce3597851110001cf624897810305b25e4da8970f812ab87f80f8",
+        "stopStyle": {
+          "circleVertex": false,
+          "radius": 15,
+          "fill": {
+            "color": "rgba(39, 245, 75, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(26, 149, 46, 0.9)",
+            "width": 2
+          },
+          "text": {
+            "defaultText": "",
+            "backgroundFill": "rgba(39, 245, 75, 0.9)"
+          }
+        },
+        "blockStyle": {
+          "circleVertex": false,
+          "radius": 10,
+          "fill": {
+            "color": "rgba(255, 41, 41, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(255, 0, 0, 1)",
+            "width": 3
+          }
+        },
+        "routeStyle": {
+          "stroke": {
+            "color": "rgba(106, 90, 205, 0.9)",
+            "width": 4
+          }
+        },
+        "style": {
+          "circleVertex": false,
+          "radius": 15,
+          "fill": {
+            "color": "rgba(39, 245, 75, 0.9)"
+          },
+          "stroke": {
+            "color": "rgba(26, 149, 46, 0.9)",
+            "width": 4
+          },
+          "text": {
+            "defaultText": "",
+            "backgroundFill": "rgba(39, 245, 75, 0.9)"
+          }
+        }
+      },
+      "gotoToolOptions": {
+        "inline": true
+      },
+      "editionOptions": {
+        "tolerance": 10
+      }
+    },
+    "loggerOptions":{
+      "publishedDefault": false,
+      "console":["WARN","ERROR"],
+      "event":["WARN","ERROR"]
+    },
+    "mapOptions": [
+      {
+        "providerMap": "ol",
+        "id": "ol_geocluster",
+        "name": "Geocluster Map",
+        "idDiv": "GeoclusterMap",
+        "active": true,
+        "visible": true,
+        "optionView": {
+          "id": "MapView",
+          "center": [536971.1492213032, 5532974.047153767],
+          "extent": [
+            -2554753.7708575055, 2614914.0553388787, 3628696.0693001123,
+            8451034.038968656
+          ],
+          "zoom": 5,
+          "projection": "3857",
+          "maxZoom": 19,
+          "minZoom": 4
+        },
+        "mapDefaultInteractions": {
+          "_altShiftDragRotate": false,
+          "_onFocusOnly": false,
+          "_doubleClickZoom": false
+        },
+        "services": [
+          {
+            "id": "layer0",
+            "layerName": "Open Street Maps",
+            "layerType": "OSM",
+            "url": "",
+            "isBaseLayer": true,
+            "defaultVisibility": true
+          }
+        ]
+      }
+    ],
+    "toc": [
+      {
+        "id": 0,
+        "name": "Default",
+        "isOpen": true,
+        "layers": [
+          {
+            "id": "nuts_info",
+            "name": "EU Territorial Units (NUTS3)"
+          },
+          {
+            "id": "ge2o_pilots",
+            "name": "GE2O Pilots"
+          }
+        ]
+      },
+      {
+        "id": 1,
+        "name": "Climate",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.1.1_hdd",
+            "name": "Heating Degrees Days"
+          },
+          {
+            "id": "z.1.2_cdd",
+            "name": "Cooling Degrees Days"
+          },
+          {
+            "id": "z.1.3_hsouth_45",
+            "name": "Annual incident energy on a south oriented plane with 45° Slope"
+          },
+          {
+            "id": "z.1.4_h0",
+            "name": "Annual incident energy on a south oriented vertical surface"
+          },
+          {
+            "id": "z.1.5_t_air_a",
+            "name": "Avg. ambient temperature over year"
+          },
+          {
+            "id": "z.1.6_t_air_h_s",
+            "name": "Avg. ambient temperature over heating season"
+          },
+          {
+            "id": "z.1.7_t_air_c_s",
+            "name": "Avg. ambient temperature over cooling season"
+          },
+          {
+            "id": "z.1.8_t_air_max",
+            "name": "Maximum ambient temperature over"
+          },
+          {
+            "id": "z.1.9_t_gw_a",
+            "name": "Avg. ground / water temperature over year"
+          },
+          {
+            "id": "z.1.10_t_gw_h_s",
+            "name": "Avg. ground / water temperature over heating season"
+          },
+          {
+            "id": "z.1.11_t_gw_c_s",
+            "name": "Avg. ground / water temperature over cooling season"
+          },
+          {
+            "id": "z.1.12_t_air_wb_c_s",
+            "name": "Avg. ambient wet bulb temperature over cooling season"
+          },
+          {
+            "id": "z.1.13_t_air_c_s_daylight",
+            "name": "Avg. ambient over cooling season during daylight"
+          },
+          {
+            "id": "z.1.14_g_south_45",
+            "name": "Avg. solar irradiation during daylight over cooling season"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "name": "Building Typology",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.2.1_bc_age",
+            "name": "Age of Construction"
+          },
+          {
+            "id": "z.2.2.1_residential_building",
+            "name": "Use Residential"
+          },
+          {
+            "id": "z.2.2.1.1_residential_single",
+            "name": "Use Residential - Single"
+          },
+          {
+            "id": "z.2.2.1.2_residential_flat",
+            "name": "Use Residential - Apartment Flats"
+          },
+          {
+            "id": "z.2.3.1_uvalue_wall",
+            "name": "U Value Existing - Wall"
+          },
+          {
+            "id": "z.2.3.2_uvalue_roof",
+            "name": "U Value Existing - Roof"
+          },
+          {
+            "id": "z.2.3.3_uvalue_floor",
+            "name": "U Value Existing - Floor"
+          },
+          {
+            "id": "Z.2.4.1",
+            "name": "U Value Target - Wall"
+          },
+          {
+            "id": "z.2.4.2_uvalue_roof",
+            "name": "U Value Target - Roof"
+          },
+          {
+            "id": "Z.2.4.3",
+            "name": "U Value Target - Floor"
+          },
+          {
+            "id": "Z_2_5_1",
+            "name": "Heating System - Central"
+          },
+          {
+            "id": "Z.2.5.2",
+            "name": "Heating System - Individual"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "name": "Social Economic",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.3.1_avg_population",
+            "name": "Population living in the area at last census"
+          },
+          {
+            "id": "z.3.2_gdp_last_census",
+            "name": "Gross domestic product of the area at last census"
+          },
+          {
+            "id": "z.3.3_gdp_construction",
+            "name": "Gross domestic product in construction"
+          },
+          {
+            "id": "z.3.4_employment_rate",
+            "name": "Employment rate"
+          },
+          {
+            "id": "z.3.5_employment_construction",
+            "name": "Employment in construction"
+          },
+          {
+            "id": "Z.3.6",
+            "name": "Labour cost"
+          },
+          {
+            "id": "z.3.7_gas_price",
+            "name": "Gas prices for household consumers"
+          },
+          {
+            "id": "z.3.8_electricity_price",
+            "name": "Electricity prices for household consumers"
+          },
+          {
+            "id": "Z.3.9",
+            "name": "Disposable income of households"
+          },
+          {
+            "id": "z.3.10_electricity_consumption",
+            "name": "Electricity consumption of households"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Regulations",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "ec_country",
+            "name": "EC Countries"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "Financial Incentives",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "z.5.1_solar_cooling_incentives",
+            "name": "Solar Cooling Incentives"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "name": "Thermal Insulation - Performance Indicator",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "tech_correlations_filtered_eati_h_s_max",
+            "name": "Max Energy Loss - Heating Season"
+          },
+          {
+            "id": "tech_correlations_filtered_eati_h_s_min",
+            "name": "Min Energy Loss - Heating Season"
+          },
+          {
+            "id": "tech_correlations_filtered_eati_c_s_max",
+            "name": "Max Energy Loss - Cooling Season"
+          },
+          {
+            "id": "tech_correlations_filtered_eati_c_s_min",
+            "name": "Min Energy Loss - Cooling Season"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "name": "Thermal Insulation - Market Potential",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "insulation_material_quantity_m",
+            "name": "Envelope Retrofitting Output - Thickness [mm]"
+          },
+          {
+            "id": "insulation_material_quantity_m3",
+            "name": "Envelope Retrofitting Output - Volume [m3]"
+          },
+          {
+            "id": "insulation_material_quantity_nuts_m3",
+            "name": "Envelope Retrofitting Output - Volume NUT3 [m3]"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "name": "Solar Cooling - Performance Indicator",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "solarcooling_performance_indicator_flat_plate_single",
+            "name": "Flat plate Collectors - Absorption single stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_flat_plate_double",
+            "name": "Flat plate Collectors - Absorption double stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_flat_plate_adsorption",
+            "name": "Flat plate Collectors - Adsorption"
+          },
+          {
+            "id": "solarcooling_performance_indicator_vacuum_tube_single",
+            "name": "Vacuum tube Collectors - Absorption single stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_vacuum_tube_double",
+            "name": "Vacuum tube Collectors - Absorption double stage"
+          },
+          {
+            "id": "solarcooling_performance_indicator_vacuum_tube_adsorption",
+            "name": "Vacuum tube Collectors - Adsorption"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "name": "Solar Cooling - Market Potential",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "solarcooling_market_potential",
+            "name": "Market Potential"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "name": "Eurostat - Population",
+        "isOpen": false,
+        "layers": [
+          {
+            "id": "ESTAT_TGS00096_GEO",
+            "name": "Population"
+          },
+          {
+            "id": "ESTAT_TGS00114_GEO",
+            "name": "Motorways Kms"
+          },
+          {
+            "id": "ESTAT_TEICP270_GEO",
+            "name": "House Price Index (I15_NSA)"
+          }
+        ]
+      }
+    ]
+  }
+}

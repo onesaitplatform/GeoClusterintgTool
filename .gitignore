@@ -3,7 +3,7 @@ node_modules
 /dist
 docker/dataflow-data
 docker/geoserver-data
-docker/postgis_data
+docker/postgis-data
 
 # local env files
 .env.local
